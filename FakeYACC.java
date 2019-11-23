@@ -1,4 +1,4 @@
-package comcompany;
+package fakeyacc;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -6,376 +6,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-/*
- * Terminal      unique
- *
- * NonTerminal   unique
- *
- * Candidate     not unique
- *
- * */
-
-class PostFix{
-
-    public static String ELRPostfix = "1";
-
-    public static String ELCPostfix = "2";
-
-}
-
-abstract class Symbol {
-
-    //Terminal or NonTerminal
-    String name;
-
-    Symbol(String name) { this.name = name; }
-
-    //return true if grammatical symbols is terminal
-    boolean isTerminal() { return this instanceof Terminal&& !name.equals("ε"); }
-
-    //return true if grammatical symbols is NonTerminal
-    boolean isNonTerminal() { return this instanceof NonTerminal; }
-
-    @Override
-    public String toString() { return name; }
-}
-
-class NonTerminal extends Symbol {
-
-    private List<Candidate> candidates = new LinkedList<>();
-    Set<Terminal> FOLLOW = new HashSet<>();
-    boolean deriveToNul;
-
-    NonTerminal(String name) { super(name); }
-
-    public NonTerminal(String name, List<Candidate> candidates) {
-        super(name);
-        this.candidates = candidates;
-    }
-
-    boolean addCandidate(Candidate content) { return this.candidates.add(content); }
-
-    boolean removeCandidate(Candidate content) { return this.candidates.remove(content); }
-
-    boolean containsCandidate(Candidate content) { return this.candidates.contains(content); }
-
-    Candidate getContainsFIRSTCandidate(Terminal s) {
-        for (Candidate candidate : candidates) {
-            if (candidate.containsFIRST(s)) return candidate;
-        }
-        return null;
-    }
-
-    //add FIRST to given FIRST
-    void addToFIRST(Set<Terminal> FIRST){
-        for(Candidate candidate : candidates){
-            FIRST.addAll(candidate.getFIRST());
-        }
-    }
-
-    boolean addToFOLLOW(Terminal terminal) { return FOLLOW.add(terminal); }
-
-    boolean containsFOLLOW(Terminal terminal) { return FOLLOW.contains(terminal); }
-
-    List<Candidate> candidateList(){ return candidates; }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == this)return true;
-        if(obj instanceof NonTerminal){
-            return ((NonTerminal)obj).name.equals(name);
-        }
-        return false;
-    }
-
-    //from Candidate Pi → Pjγ to Candidates Pi → ( δ1 | δ2 | … | δn )γ, Pj → ( δ1 | δ2 | … | δn )
-    List<Candidate> replaceCandidate(Candidate Pj){
-        List<Candidate> re = new ArrayList<>();
-        for(Candidate candidate : candidateList()){
-            Candidate newCandidate = new Candidate(candidate);
-            for(int i = 1;i<Pj.symbols.size();i++){
-                newCandidate.symbols.add(Pj.symbols.get(i));
-            }
-            re.add(newCandidate);
-        }
-        return re;
-    }
-
-    //return map that maps left common factors and its indexes
-    Map<List<Symbol>, Set<Integer>> getLeftCommonFactor(){
-        Map<List<Symbol>, Set<Integer>> map = new HashMap<>();//<commonFactors, indexes>
-        int size = candidateList().size();
-        for(int i = 0;i<size-1;i++){
-            for(int j = i+1;j<size;j++){
-                List<Symbol> commonFactors = candidates.get(i).getLeftCommonFactor(candidates.get(j));
-                Set<Integer> indexes = map.get(commonFactors);
-                if(indexes==null){if(commonFactors!=null)map.put(commonFactors, new HashSet<>(List.of(i,j)));}
-                else { indexes.add(i);indexes.add(j); }
-            }
-        }
-        return map;
-    }
-
-    //return true if the nonTerminal owns equivalent candidates with current one
-    boolean examEquivalentNonTerminal(List<Candidate> candidateList){
-//        List<Candidate> candidateList = nonTerminal.candidateList();
-        if(candidateList.size()!=candidates.size())return false;
-        for(int i = 0;i<candidates.size();i++){
-            if(!candidates.get(i).equals(candidateList.get(i)))return false;
-        }
-        return true;
-    }
-
-    //during A → δβ1 | δβ2 | … | δβn | δ | γ1 | γ2 | … | γm to A → δA' | γ1 | γ2 | … | γm, A' → β1 | β2 | … | βn | ε
-    //(symbols, indexes, newNonTerminalMap) (leftCommonFactors, indexes of LCF in current NonTerminal, newly NonTerminal in current loop)
-    //return new NonTerminal or the equivalent NonTerminal
-    NonTerminal extractLeftCommonFactor(List<Symbol> symbols, Set<Integer> indexes, HashMap<String, NonTerminal> newNonTerminalMap){
-        List<Candidate> newCandidates = new LinkedList<>();
-        for(int index : indexes){
-            newCandidates.add(this.candidates.get(index).removeLeftCommonFactor(symbols));
-        }
-        //decide weather to new a newly NonTerminal or not
-        NonTerminal nt = null;
-        for(NonTerminal nonTerminal : newNonTerminalMap.values()){
-            if(nonTerminal.examEquivalentNonTerminal(newCandidates)){
-                nt = nonTerminal;
-                break;
-            }
-        }
-        if(nt == null){//new a necessary newly NonTerminal
-            String name = this.name;//may repeat
-            do{
-                name += PostFix.ELCPostfix ;//distinct from newly NonTerminals generate from elr
-                nt = newNonTerminalMap.get(name);
-            } while(nt!=null);
-            nt = new NonTerminal(name, newCandidates);
-            newNonTerminalMap.put(nt.name, nt);
-        }
-        symbols.add(nt);//change left common factors δ to δA'
-        this.candidates.add(new Candidate(symbols));//add δA' to A
-        return nt;
-    }
-
-    //return true if its FOLLOW collection changed
-    boolean buildFOLLOW(){
-//        boolean changed = false;
-        for(Candidate candidate : candidateList()){
-            if(candidate.buildFOLLOW(this)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-//    @Override
-//    public String toString() {
-//        StringBuilder sb = new StringBuilder();
-//        sb.append(name);
-//        sb.append("→");
-//        for(Candidate candidate : candidates){
-//            sb.append(candidate.);
-//            sb.append(" | ");
-//        }
-//        sb.delete(sb.length()-3,sb.length());
-//        return sb.toString();
-//    }
-}
-
-class Terminal extends Symbol {
-
-    static Terminal nul = new Terminal("ε");
-    static Terminal sharp = new Terminal("$end");
-
-    Terminal(String name) { super(name); }
-
-    @Override
-    public String toString() { return name; }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == this)return true;
-        if(obj instanceof Terminal){
-            return ((Terminal)obj).name.equals(name);
-        }
-        return false;
-    }
-}
-
-/*
- * Candidate does not grantee unique
- * */
-class Candidate {
-
-    List<Symbol> symbols;
-
-    private Set<Terminal> FIRST;
-
-    boolean deriveToNul;
-
-    Set<Terminal> getFIRST(){ return FIRST; }
-
-    boolean addFIRST(Terminal first) { return this.FIRST.add(first); }
-
-    boolean containsFIRST(Terminal first) { return this.FIRST.contains(first); }
-
-    Symbol firstSymbol(){ return symbols.get(0); }
-
-    Candidate(Candidate candidate){
-        this.symbols = new LinkedList<>(candidate.symbols);
-        this.FIRST = new HashSet<>();
-    }
-
-    Candidate(List<Symbol> symbols){
-        this.symbols = symbols;
-        this.FIRST = new HashSet<>();
-    }
-
-    Candidate(Symbol firstSymbol){
-        this.symbols = new LinkedList<>();
-        this.symbols.add(firstSymbol);
-        this.FIRST = new HashSet<>();
-    }
-
-    Candidate() {
-        this.symbols = new LinkedList<>();
-        this.FIRST = new HashSet<>();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(this == obj)return true;
-        if(obj instanceof Candidate){
-            List<Symbol> symbolList = ((Candidate)obj).symbols;
-            if(symbolList.size()!=symbols.size())return false;
-            for(int i = 0;i<symbols.size();i++){
-                if(!symbolList.get(i).equals(symbols.get(i)))return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for(Symbol symbol : symbols){
-            sb.append(symbol.toString());
-            sb.append(" ");
-        }
-        return sb.toString();
-    }
-
-    //P → Pa | Pb | c change to P → cP', P' → aP' | bP' | ε
-    //changeCandidate change Pa to aP' and return the candidate after modify
-    Candidate changeCandidate(NonTerminal nonTerminal){
-        this.symbols.remove(0);
-        this.symbols.add(nonTerminal);
-        return this;
-    }
-
-    public boolean startWith(List<Symbol> symbols){
-        if(symbols.size()>this.symbols.size())return false;
-        for(int i = 0;i<symbols.size();i++){
-            if(symbols.get(i)!=this.symbols.get(i))return false;
-        }
-        return true;
-    }
-
-    List<Symbol> getLeftCommonFactor(Candidate candidate){
-        int index = 0;
-        int size = Math.min(symbols.size(),candidate.symbols.size());
-        while(index<size&&symbols.get(index)==candidate.symbols.get(index))index++;
-        if(index==0)return null;
-        return new LinkedList<Symbol>(symbols.subList(0,index));//[0,index)
-    }
-
-    Candidate removeLeftCommonFactor(List<Symbol> commonFactors){
-        int i = 0;
-        while (i<commonFactors.size()){ symbols.remove(0);i++; }
-        if(symbols.isEmpty())symbols.add(Terminal.nul);
-        return this;
-    }
-
-    //return true if a Candidate can infer to Nul
-    boolean deriveToNul(){
-        boolean re = true;
-        if(firstSymbol()!=Terminal.nul){//assume there is no production like P → ε....
-            for(Symbol symbol : symbols){
-                if(symbol.isNonTerminal()){
-                    if(!((NonTerminal)symbol).deriveToNul){ re = false; break; }
-                }else { re = false; break; }
-            }
-        }
-        deriveToNul = re;
-        return re;
-    }
-
-    //buildFOLLOW
-    //return true if any FOLLOW collection changed
-    boolean buildFOLLOW(NonTerminal nt){
-        boolean changed = false;
-        int preSize;
-        Symbol preSymbol = symbols.get(0);
-        for(int i = 1;i<symbols.size();i++){
-            if(preSymbol.isNonTerminal()){//A → αBβ  add FIRST(β)-{ε} to FOLLOW(B)
-                Set<Terminal> preFOLLOW = ((NonTerminal)preSymbol).FOLLOW;
-                preSize = preFOLLOW.size();
-                boolean containsNul = preFOLLOW.contains(Terminal.nul);
-                out:
-                for(int j = i;j<symbols.size();j++){//add FIRST(β)-{ε} to FOLLOW(B)
-                    if(symbols.get(j).isTerminal()){
-                        if(symbols.get(j)!=Terminal.nul){
-                            preFOLLOW.add((Terminal)symbols.get(j));
-                            break;
-                        }
-                    }else{
-                        for(Candidate candidate : ((NonTerminal)symbols.get(j)).candidateList()){
-                            preFOLLOW.addAll(candidate.FIRST);
-                            if(!((NonTerminal)symbols.get(j)).deriveToNul)break out;
-                        }
-                    }
-                }
-                if(!containsNul){//FIRST(symbol) - nul
-                    preFOLLOW.remove(Terminal.nul);
-                }
-                if(preSize!=preFOLLOW.size()){
-                    changed = true;
-                }
-            }
-            preSymbol = symbols.get(i);
-        }
-        //A → αB || A → αBβ && β ⇒* ε, add FOLLOW(A) to FOLLOW(B)
-        //here  preSymbol == lastSymbol
-        if(preSymbol.isNonTerminal()){//handel the last one individually
-            ((NonTerminal)preSymbol).FOLLOW.addAll(nt.FOLLOW);
-            if(((NonTerminal)preSymbol).deriveToNul)
-                for(int i = symbols.size()-2;i>=0;i--){
-                    if(symbols.get(i).isNonTerminal()){
-                        preSize = ((NonTerminal)symbols.get(i)).FOLLOW.size();
-                        ((NonTerminal)symbols.get(i)).FOLLOW.addAll(nt.FOLLOW);
-                        if(preSize!=((NonTerminal)symbols.get(i)).FOLLOW.size())changed = true;
-                        if(!((NonTerminal)symbols.get(i)).deriveToNul)break;
-                    }else break;
-                }
-        }
-        return changed;
-    }
-}
-
 /**
  * convert a non-LL(1) grammar to a LL(1) grammar if it is possible
  */
 public class FakeYACC {
 
     // NonTerminal  notice that modify the NonTerminal should change both the map and list
-    private static Map<String,NonTerminal> NonTerminalMap = new HashMap<>();
+    private static Map<String, NonTerminal> NonTerminalMap = new HashMap<>();
     private static List<NonTerminal> NonTerminals;
 
     // Terminal
     private static Map<String,Terminal> TerminalMap = new HashMap<>();
     //ε and # will treat as Terminal
 
-    private final String packageName = "test2";//grammar
+    private final String directory = "test2";//grammar
 
 //    int order = 1;//the name of the left-part in the newly created production
 
@@ -387,7 +31,7 @@ public class FakeYACC {
     private void readGrammar(){
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(packageName+"/grammar"));
+            reader = new BufferedReader(new FileReader(directory +"/grammar"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -430,7 +74,7 @@ public class FakeYACC {
     private void readTerminalSet(){
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(packageName+"/terminalSet"));
+            reader = new BufferedReader(new FileReader(directory +"/terminalSet"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -455,7 +99,7 @@ public class FakeYACC {
         HashMap<String,NonTerminal>  mapFOLLOW = new HashMap<>(512);
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(packageName+"/verification"));
+            reader = new BufferedReader(new FileReader(directory +"/verification"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
