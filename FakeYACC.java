@@ -1,9 +1,6 @@
-package fakeyacc;
+package FakeYacc;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -19,7 +16,7 @@ public class FakeYACC {
     private static Map<String,Terminal> TerminalMap = new HashMap<>();
     //ε and # will treat as Terminal
 
-    private final String directory = "test2";//grammar
+    private final String directory = "src/FakeYacc/ANSIC";//grammar
 
 //    int order = 1;//the name of the left-part in the newly created production
 
@@ -380,6 +377,9 @@ public class FakeYACC {
             for(Candidate candidate : nt.candidateList()){
                 for(Symbol symbol : candidate.symbols){
                     if(symbol.isNonTerminal()){
+//                        if(nt.name.equals("type_specifier")){//struct_or_union_specifier
+//                            System.out.println("debug");
+//                        }
                         if(abandonSet.remove((NonTerminal) symbol)){
                             queue.offer((NonTerminal) symbol);
                         }
@@ -403,13 +403,13 @@ public class FakeYACC {
             NonTerminal currentNonTerminal = NonTerminals.get(i);
             Map<List<Symbol>, Set<Integer>> map =  currentNonTerminal.getLeftCommonFactor();
             List<List<Symbol>> commonFactors = new ArrayList<>(map.keySet());
-            commonFactors.sort((Comparator<List<Symbol>>) (o1, o2) -> map.get(o1).size()-map.get(o2).size());
+            commonFactors.sort(Comparator.comparingInt(o -> map.get(o).size()));
             Set<Integer> extracted = new HashSet<>(currentNonTerminal.candidateList().size());
             //remove candidate after extract all common factors, otherwise indexes in currentNonTerminal candidates will change
+            HashMap<String, NonTerminal> newNonTerminalMap = new HashMap<>();
             for(List<Symbol> symbols : commonFactors){
                 Set<Integer> indexes = map.get(symbols);
                 boolean extractable = true;
-                HashMap<String, NonTerminal> newNonTerminalMap = new HashMap<>();
                 for(int index : indexes){ if(extracted.contains(index)){ extractable = false;break; } }
                 if(extractable){
 
@@ -499,20 +499,127 @@ public class FakeYACC {
         }
     }
 
+    private void buildParsingTable(){
+        Writer writer = FakeYACC.createFileWriter(directory + "/out/production");;
+        Map<String,Integer> production = new HashMap<>();
+        int index = 1;
+        try {
+            for(NonTerminal nt : NonTerminals){
+                for(Candidate candidate : nt.candidateList()){
+                    StringBuilder p = new StringBuilder(nt.name);
+                    p.append("->").append(candidate.toString());
+                    production.put(p.toString(),index);
+                    writer.write("@"+index+"\t\t"+p.toString()+"\n");
+                    index++;
+                }
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("error occurs when output production");
+        }
+        {
+            int exam = 0;
+            for (int i : production.values()) exam += i;
+            if (exam != (1 + production.size()) * production.size() / 2) {
+                System.out.println("examination failed");return;
+            }
+        }
+
+        writer = FakeYACC.createFileWriter(directory + "/out/terminal");
+        Map<Terminal, Integer> terminal = new HashMap<>();
+        index = 1;
+        try {
+            for(Terminal t : TerminalMap.values()){
+                terminal.put(t,index);
+                writer.write("@"+index+"\t\t"+t.name+"\n");
+                writer.flush();
+                index++;
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("error occurs when outputting terminal");
+        }
+
+        writer = FakeYACC.createFileWriter(directory + "/out/NonTerminal");
+        Map<NonTerminal, Integer> NonTerminal = new HashMap<>();
+        index = 1;
+        try {
+            for(NonTerminal nt : NonTerminals){
+                NonTerminal.put(nt,index);
+                writer.write("@"+index+"\t\t"+nt.name+"\n");
+                writer.flush();
+                index++;
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("error occurs when outputting NonTerminal");
+        }
+
+        //[1,NonTerminal.size()][1,terminal.size()]
+        String [][]parseTable = new String[NonTerminal.size()+1][terminal.size()+1];
+        int ntIndex, prodIndex, tIndex;
+        for(NonTerminal nt : NonTerminals){
+            ntIndex = NonTerminal.get(nt);//map
+            for(Candidate candidate : nt.candidateList()){
+                prodIndex = production.get(nt.name+"->"+candidate.toString());//map
+                for(Terminal t : candidate.getFIRST()){
+                    tIndex = terminal.get(t);
+                    if(parseTable[ntIndex][tIndex]==null)
+                        parseTable[ntIndex][tIndex] = String.format("%4d",prodIndex);
+                    else
+                        parseTable[ntIndex][tIndex] =
+                                parseTable[ntIndex][tIndex] + "," + prodIndex;
+                }
+            }
+            if(nt.deriveToNul){
+//                if(production.get(nt.name+"->"+Terminal.nul)==null)
+//                System.out.println(nt.name);
+                for(Candidate candidate : nt.candidateList()){
+                    if(!candidate.deriveToNul)continue;
+                    prodIndex = production.get(nt.name+"->"+candidate.toString());//map
+                    for(Terminal t : nt.FOLLOW){
+                        tIndex = terminal.get(t);
+                        if(parseTable[ntIndex][tIndex]==null)
+                            parseTable[ntIndex][tIndex] = String.format("%4d",prodIndex);
+                        else
+                            parseTable[ntIndex][tIndex] =
+                                    parseTable[ntIndex][tIndex] + "," + prodIndex;
+                    }
+                }
+            }
+        }
+        writer = FakeYACC.createFileWriter(directory + "/out/parsingTable");
+        try {
+            for(int i = 1;i < parseTable.length;i++){
+                for(int j = 1;j < parseTable[i].length;j++){
+                    writer.write(String.valueOf(parseTable[i][j]));
+                    writer.write(" ");
+                }
+                writer.write("\n");
+                writer.flush();
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("error occurs when outputting parsingTable");
+        }
+    }
+
     public static void main(String[] args) {
         FakeYACC driver = new FakeYACC();
         driver.readTerminalSet();
         driver.readGrammar();
         System.out.println(TerminalMap);
-        System.out.println(printNonTerminals());
-//        System.out.println("before eliminateLeftRecursion: number of NonTerminals:"+NonTerminals.size());
-//        System.out.println("------------------------------------------------");
-//        driver.eliminateLeftRecursion();//there is a doubt that P derives P', then weather P derives another P'
-//        printAsBisonBNF();
+//        System.out.println(printNonTerminals());
+        System.out.println("before eliminateLeftRecursion: number of NonTerminals:"+NonTerminals.size());
+        System.out.println("------------------------------------------------");
+        driver.eliminateLeftRecursion();//there is a doubt that P derives P', then weather P derives another P'
 //        System.out.println("after eliminateLeftRecursion: number of NonTerminals:"+NonTerminals.size());
 //        System.out.println("the identity between NonTerminalMap & NonTerminals:"+driver.examNonTerminalMapAndNonTerminals());
 //        System.out.println(printNonTerminals());
-        System.out.println("clean unreachable NonTerminals after ELR");
         //test weather the algorithm that judges certain productions is unreachable is correct or not
 /*        NonTerminal []island = new NonTerminal[5];
 //        island[0] = new NonTerminal("0");
@@ -523,31 +630,45 @@ public class FakeYACC {
 //        island[0].addCandidate(new Candidate(island[island.length-1]));
 //        for(NonTerminal nt : island){ NonTerminalMap.put(nt.name,nt);NonTerminals.add(nt); }
 */      //test
+
+        System.out.println("clean unreachable NonTerminals after ELR");
         System.out.println("before remove unreachable: number of NonTerminals:"+NonTerminals.size());
         driver.removeUnreachableNonTerminals();
         System.out.println("------------------------------------------------");
         System.out.println("after remove unreachable: number of NonTerminals:"+NonTerminals.size());
+        printAsBisonBNF();
+
         System.out.println("the identity between NonTerminalMap & NonTerminals:"+driver.examNonTerminalMapAndNonTerminals());
+
         System.out.println("------------------------------------------------");
         System.out.println("before extract left common factors, number of NonTerminals:"+NonTerminals.size());
-//        driver.extractLeftCommonFactor();
-        printAsBisonBNF();
+        driver.extractLeftCommonFactor();
 //        System.out.println(printNonTerminals());
         System.out.println("after extract left common factors, number of NonTerminals:"+NonTerminals.size());
         System.out.println("the identity between NonTerminalMap & NonTerminals:"+driver.examNonTerminalMapAndNonTerminals());
+
+
+        //remove error
+//        System.out.println("clean unreachable NonTerminals after ELC");
+//        System.out.println("before remove unreachable: number of NonTerminals:"+NonTerminals.size());
+//        driver.removeUnreachableNonTerminals();
+//        System.out.println("------------------------------------------------");
+//        System.out.println("after remove unreachable: number of NonTerminals:"+NonTerminals.size());
+
+        printAsBisonBNF();
         System.out.println("------------------------------------------------");
         driver.fillDomainDeriveToNul();
-        System.out.println("-------------------begin--build FIRST Collection------------------------");
         driver.buildCollectionFIRST();
         System.out.println("FIRST collection has no intersection:"+driver.examIntersectionOfFISRTCollection());
 //        System.out.println("---------------------------FIRST  Collection-------------------------------");
-//        printFIRST();
+        printFIRST();
         System.out.println("exam the correctness of NonTerminals :" + driver.examDeriveToNul());
-//        printAsBisonBNF();
         driver.buildCollectionFOLLOW();
 //        System.out.println("---------------------------FOLLOW  Collection-------------------------------");
-//        printFOLLOW();
+        printFOLLOW();
+        System.out.println("FIRST collection has no intersection:"+driver.examIntersectionOfFIRSTAndFOLLOW());
         driver.readFIRSTAndFOLLOW2Exam(true,true);
+        driver.buildParsingTable();
         System.out.println();
     }
 
@@ -579,10 +700,9 @@ public class FakeYACC {
         return false;
     }
 
-    //exam there is no intersection of any two candidates' FIRST collection of identical NonTerminal
+    //exam the intersection of any two candidates' FIRST collection of identical NonTerminal
     private boolean examIntersectionOfFISRTCollection(){
         int cnt = 0;
-        boolean re = true;
         for(NonTerminal nonTerminal : NonTerminals){
             List<Candidate> candidates = nonTerminal.candidateList();
             for(int i = 0;i<candidates.size()-1;i++){
@@ -590,16 +710,57 @@ public class FakeYACC {
                     Candidate anotherCandidate = candidates.get(j);
                     for(Terminal terminal : candidates.get(i).getFIRST()){
                         if(anotherCandidate.containsFIRST(terminal)){
-                            re = false;
-                            cnt++;
                             System.out.println("conflict:" + nonTerminal.name + "中 :" + candidates.get(i) + "与 " + anotherCandidate);
+                            cnt++;
                         }
                     }
                 }
             }
         }
         System.out.println("conflict: "+cnt);
-        return re;
+        return cnt==0;
     }
 
+    //exam the intersection of any deriveToNul candidates' FIRST collection of its FOLLOW collection
+    private boolean examIntersectionOfFIRSTAndFOLLOW(){
+        int cnt = 0;
+        for(NonTerminal nt : NonTerminals){
+            Set<Terminal> FIRST = nt.getFIRST();
+            if(FIRST.contains(Terminal.nul)){
+                for(Terminal t : FIRST){
+                    if(nt.FOLLOW.contains(t)){
+                        System.out.println("conflict:"+nt+":"+t);
+                        cnt++;
+                    }
+                }
+            }
+        }
+        System.out.println("conflict:"+cnt);
+        return cnt==0;
+    }
+
+    private static Writer createFileWriter(String fileName){
+        BufferedWriter writer = null;
+        File file = new File(fileName);
+        if(file.exists())
+            if(file.delete()) System.out.println("delete old file");
+            else { System.out.println("delete old file failed"); return writer; }
+        try {
+            if(file.createNewFile()){
+                System.out.println("outputting");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("create file failed");
+        }
+        try {
+            writer = new BufferedWriter(
+                    new OutputStreamWriter(
+                            new FileOutputStream(file)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("create file failed");
+        }
+        return writer;
+    }
 }

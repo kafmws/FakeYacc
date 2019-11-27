@@ -1,4 +1,4 @@
-package fakeyacc;
+package FakeYacc;
 
 import java.util.*;
 
@@ -91,8 +91,12 @@ public class NonTerminal extends Symbol {
     boolean examEquivalentNonTerminal(List<Candidate> candidateList){
 //        List<Candidate> candidateList = nonTerminal.candidateList();
         if(candidateList.size()!=candidates.size())return false;
-        for(int i = 0;i<candidates.size();i++){
-            if(!candidates.get(i).equals(candidateList.get(i)))return false;
+        List<Candidate> temCandidates = new ArrayList<>(candidates);
+        List<Candidate> temCandidateList = new ArrayList<>(candidateList);
+        temCandidates.sort(Candidate::compareTo);
+        temCandidateList.sort(Candidate::compareTo);
+        for(int i = 0;i<temCandidates.size();i++){
+            if(!temCandidates.get(i).equals(temCandidateList.get(i)))return false;
         }
         return true;
     }
@@ -136,6 +140,14 @@ public class NonTerminal extends Symbol {
             }
         }
         return false;
+    }
+
+    Set<Terminal> getFIRST(){
+        Set<Terminal> FIRST = new HashSet<>();
+        for(Candidate candidate : candidates){
+            FIRST.addAll(candidate.getFIRST());
+        }
+        return FIRST;
     }
 
 //    @Override

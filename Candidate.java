@@ -1,4 +1,4 @@
-package fakeyacc;
+package FakeYacc;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -17,7 +17,7 @@ import java.util.Set;
 /*
  * Candidate does not grantee unique
  * */
-public class Candidate {
+public class Candidate implements Comparable{
 
     List<Symbol> symbols;
 
@@ -75,6 +75,7 @@ public class Candidate {
             sb.append(symbol.toString());
             sb.append(" ");
         }
+        sb.delete(sb.length()-1, sb.length());
         return sb.toString();
     }
 
@@ -159,7 +160,7 @@ public class Candidate {
         }
         //A → αB || A → αBβ && β ⇒* ε, add FOLLOW(A) to FOLLOW(B)
         //here  preSymbol == lastSymbol
-        if(preSymbol.isNonTerminal()){//handel the last one individually
+        if(preSymbol.isNonTerminal()){//handle the last one individually
             ((NonTerminal)preSymbol).FOLLOW.addAll(nt.FOLLOW);
             if(((NonTerminal)preSymbol).deriveToNul)
                 for(int i = symbols.size()-2;i>=0;i--){
@@ -172,6 +173,20 @@ public class Candidate {
                 }
         }
         return changed;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        List<Symbol> symbolList = ((Candidate) o).symbols;
+        if(this.symbols.size()==symbolList.size()){
+            for(int i = 0;i<symbols.size();i++){
+                if(symbols.get(i).name.compareTo(symbolList.get(i).name)!=0)
+                    return symbols.get(i).name.compareTo(symbolList.get(i).name);
+            }
+            return 0;
+        }else{
+            return this.symbols.size()-symbolList.size();
+        }
     }
 }
 

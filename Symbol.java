@@ -1,4 +1,4 @@
-package fakeyacc;
+package FakeYacc;
 
 /*
  * Terminal      unique
