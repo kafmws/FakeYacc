@@ -10,13 +10,14 @@ public class FakeYACC {
 
     // NonTerminal  notice that modify the NonTerminal should change both the map and list
     private static Map<String, NonTerminal> NonTerminalMap = new HashMap<>();
-    private static List<NonTerminal> NonTerminals;
+    private static List<NonTerminal> NonTerminals = new ArrayList<>(256);
 
     // Terminal
     private static Map<String,Terminal> TerminalMap = new HashMap<>();
     //ε and # will treat as Terminal
 
-    private final String directory = "src/FakeYacc/ANSIC";//grammar
+
+    private static final String directory = "src/FakeYacc/ANSIC";//src/FakeYacc/ANSIC
 
 //    int order = 1;//the name of the left-part in the newly created production
 
@@ -45,6 +46,7 @@ public class FakeYACC {
                         nt = new NonTerminal(strings[0]);
                         NonTerminalMap.put(strings[0],nt);
                     }
+                    NonTerminals.add(nt);
                 }else {//Candidate of nt
                     candidate = new Candidate();
                     for(int i = 1;i<strings.length;i++){
@@ -65,7 +67,6 @@ public class FakeYACC {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        NonTerminals = new ArrayList<>(NonTerminalMap.values());
     }
 
     private void readTerminalSet(){
@@ -92,8 +93,9 @@ public class FakeYACC {
 
     //exam FIRST collection and FOLLOW collection
     private void readFIRSTAndFOLLOW2Exam(boolean firstBool, boolean followBool){
-        HashMap<String,Set<Terminal>> mapFIRST = new HashMap<>(512);
-        HashMap<String,NonTerminal>  mapFOLLOW = new HashMap<>(512);
+        //for exam
+        HashMap<String, Set<Terminal>> mapFIRST = new HashMap<>(512);
+        HashMap<String, NonTerminal> mapFOLLOW = new HashMap<>(512);
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(directory +"/verification"));
@@ -151,7 +153,8 @@ public class FakeYACC {
                 else {
                     String[] ts = line.split(",");
                     for (String s : ts) {
-                        nt.FOLLOW.add(TerminalMap.get(s));
+                        if(TerminalMap.get(s)!=null)
+                            nt.FOLLOW.add(TerminalMap.get(s));
                     }
                 }
 
@@ -163,6 +166,7 @@ public class FakeYACC {
         }catch (IOException e){
             e.printStackTrace();
         }
+        int diff = 0;
         if(firstBool){
             System.out.println("=======================FIRST VERIFICATION====================");
             for(NonTerminal nt : NonTerminals){
@@ -174,52 +178,66 @@ public class FakeYACC {
                     FIRST.addAll(candidate.getFIRST());
                 }
                 if(FIRST.size()!=first.size()){
-                    System.out.println();
-                    System.out.println(nt);
-                    ArrayList<Terminal> calculate = new ArrayList<>(FIRST);
-                    calculate.sort(Comparator.comparing(o -> ((Terminal) o).name));
-                    System.out.println("calculate : "+calculate);
-                    ArrayList<Terminal> generate = new ArrayList<>(first);
-                    generate.sort(Comparator.comparing(o -> ((Terminal) o).name));
-                    System.out.println("generate  : "+generate);
+                    printfDiff(nt, FIRST, first);
+                    diff++;
                     continue;
                 }
-
                 for(Terminal t : FIRST){
                     if(!first.contains(t)){
-                        System.out.println();
-                        System.out.println(nt);
-                        ArrayList<Terminal> calculate = new ArrayList<>(FIRST);
-                        calculate.sort(Comparator.comparing(o -> ((Terminal) o).name));
-                        System.out.println("calculate : "+calculate);
-                        ArrayList<Terminal> generate = new ArrayList<>(first);
-                        generate.sort(Comparator.comparing(o -> ((Terminal) o).name));
-                        System.out.println("generate  : "+generate);
+                        printfDiff(nt, FIRST, first);
+                        diff++;
                         break;
                     }
                 }
             }
         }
+        System.out.println("FIRST Collection diff:" + diff);
+
+        diff = 0;
         if(followBool){
             System.out.println("=======================FOLLOW VERIFICATION====================");
             for(NonTerminal nt : NonTerminals){
                 NonTerminal nnt = mapFOLLOW.get(nt.name);
                 if(nnt==null){ System.out.println(nt);continue; }
                 Set<Terminal> FOLLOW = nnt.FOLLOW;
-                for(Terminal t : nt.FOLLOW){
-                    if(!FOLLOW.contains(t)){
-                        System.out.println();
-                        System.out.println(nt);
-                        ArrayList<Terminal> calculate = new ArrayList<>(nt.FOLLOW);
-                        calculate.sort(Comparator.comparing(o -> ((Terminal) o).name));
-                        System.out.println("calculate : "+calculate);
-                        ArrayList<Terminal> generate = new ArrayList<>(FOLLOW);
-                        calculate.sort(Comparator.comparing(o -> ((Terminal) o).name));
-                        System.out.println("generate  : "+generate);
-                        break; }
+                if(FOLLOW.size()!=nt.FOLLOW.size()){
+                    printfDiff(nt,nnt);
+                    diff++;
+                    continue;
+                }
+                for(Terminal t : FOLLOW){
+                    if(!nt.FOLLOW.contains(t)){
+                        printfDiff(nt,nnt);
+                        diff++;
+                        break;
+                    }
                 }
             }
         }
+        System.out.println("FOLLOW Collection diff:" + diff);
+
+    }
+
+    private void printfDiff(NonTerminal nt, NonTerminal nnt){
+        System.out.println();
+        System.out.println(nt);
+        ArrayList<Terminal> calculate = new ArrayList<>(nt.FOLLOW);
+        calculate.sort(Comparator.comparing(o -> o.name));
+        System.out.println("calculate : "+calculate);
+        ArrayList<Terminal> generate = new ArrayList<>(nnt.FOLLOW);
+        generate.sort(Comparator.comparing(o -> o.name));
+        System.out.println("generate  : "+generate);
+    }
+
+    private void printfDiff(NonTerminal nt, Set<Terminal> FIRST, Set<Terminal> first){
+        System.out.println();
+        System.out.println(nt);
+        ArrayList<Terminal> calculate = new ArrayList<>(FIRST);
+        calculate.sort(Comparator.comparing(o -> o.name));
+        System.out.println("calculate : "+calculate);
+        ArrayList<Terminal> generate = new ArrayList<>(first);
+        generate.sort(Comparator.comparing(o -> o.name));
+        System.out.println("generate  : "+generate);
     }
 
     private static String printNonTerminalMap(){
@@ -260,7 +278,7 @@ public class FakeYACC {
         return sb.toString();
     }
 
-    private static void printAsBisonBNF(){
+    private static String printAsBisonBNF(){
         StringBuilder sb = new StringBuilder();
         sb.append("{\n");
         for(NonTerminal nt : NonTerminals){
@@ -285,25 +303,29 @@ public class FakeYACC {
             sb.append("\n\n");
         }
         sb.append("}");
-        System.out.println(sb.toString());
+        return sb.toString();
     }
 
-    private static void printFIRST(){
+    private static String printFIRST(){
+        StringBuilder sb = new StringBuilder();
         for(NonTerminal nt : NonTerminals){
-            Set<Terminal> FIRST = new HashSet<Terminal>(64);
-            for(Candidate candidate : nt.candidateList()){
-                FIRST.addAll(candidate.getFIRST());
-            }
-            System.out.println(nt.name+" FIRST:"+FIRST);
+            sb.append(nt.name)
+                    .append(" FIRST:\n")
+                    .append(nt.getFIRST().toString())
+                    .append("\n\n");
         }
+        return sb.toString();
     }
 
-    private static void printFOLLOW(){
-        for(NonTerminal nonTerminal : NonTerminals){
-            System.out.print(nonTerminal.name);
-            System.out.print(" : ");
-            System.out.println(nonTerminal.FOLLOW);
+    private static String printFOLLOW(){
+        StringBuilder sb = new StringBuilder();
+        for(NonTerminal nt : NonTerminals){
+            sb.append(nt.name)
+                    .append(" FOLLOW:\n")
+                    .append(nt.FOLLOW.toString())
+                    .append("\n\n");
         }
+        return sb.toString();
     }
 
     //eliminate left recursion
@@ -399,6 +421,7 @@ public class FakeYACC {
 
     //extract left common factor
     private void extractLeftCommonFactor(){
+        HashMap<String, NonTerminal> newNonTerminalMap = new HashMap<>();
         for(int i = 0;i<NonTerminals.size();i++){
             NonTerminal currentNonTerminal = NonTerminals.get(i);
             Map<List<Symbol>, Set<Integer>> map =  currentNonTerminal.getLeftCommonFactor();
@@ -406,7 +429,6 @@ public class FakeYACC {
             commonFactors.sort(Comparator.comparingInt(o -> map.get(o).size()));
             Set<Integer> extracted = new HashSet<>(currentNonTerminal.candidateList().size());
             //remove candidate after extract all common factors, otherwise indexes in currentNonTerminal candidates will change
-            HashMap<String, NonTerminal> newNonTerminalMap = new HashMap<>();
             for(List<Symbol> symbols : commonFactors){
                 Set<Integer> indexes = map.get(symbols);
                 boolean extractable = true;
@@ -483,18 +505,18 @@ public class FakeYACC {
         boolean changed = true;
         NonTerminal startNonTerminal = NonTerminalMap.get("translation_unit");
         startNonTerminal.FOLLOW.add(Terminal.sharp);
-        List<Integer> sizes = new ArrayList<>(NonTerminals.size());
-        for (NonTerminal nonTerminal : NonTerminals){
-            sizes.add(nonTerminal.FOLLOW.size());
-        }
+        int []sizes = new int[NonTerminals.size()];
+//        for (int i = 0;i<sizes.length;i++){
+//            sizes[i] = 0;
+//        }
         while(changed){
             changed = false;
-            for (int i = 0; i < NonTerminals.size(); i++) {
-                NonTerminals.get(i).buildFOLLOW();
-                if(NonTerminals.get(i).FOLLOW.size()!=sizes.get(i)){
-                    sizes.set(i,NonTerminals.get(i).FOLLOW.size());
-                    changed = true;
-                }
+            for (NonTerminal nonTerminal : NonTerminals) {
+                if (nonTerminal.buildFOLLOW()) changed = true;
+//                if(NonTerminals.get(i).FOLLOW.size()!=sizes[i]){
+//                    sizes[i] = NonTerminals.get(i).FOLLOW.size();
+//                    changed = true;
+//                }
             }
         }
     }
@@ -613,14 +635,17 @@ public class FakeYACC {
         driver.readTerminalSet();
         driver.readGrammar();
         System.out.println(TerminalMap);
+        System.out.println("是否对语法进行处理?(true/false)");
+        boolean cl = new Scanner(System.in).nextBoolean();
 //        System.out.println(printNonTerminals());
         System.out.println("before eliminateLeftRecursion: number of NonTerminals:"+NonTerminals.size());
         System.out.println("------------------------------------------------");
-        driver.eliminateLeftRecursion();//there is a doubt that P derives P', then weather P derives another P'
+        if (cl)
+            driver.eliminateLeftRecursion();//there is a doubt that P derives P', then weather P derives another P'
 //        System.out.println("after eliminateLeftRecursion: number of NonTerminals:"+NonTerminals.size());
 //        System.out.println("the identity between NonTerminalMap & NonTerminals:"+driver.examNonTerminalMapAndNonTerminals());
 //        System.out.println(printNonTerminals());
-        //test weather the algorithm that judges certain productions is unreachable is correct or not
+            //test weather the algorithm that judges certain productions is unreachable is correct or not
 /*        NonTerminal []island = new NonTerminal[5];
 //        island[0] = new NonTerminal("0");
 //        for(int i = 1;i<island.length;i++){
@@ -631,42 +656,75 @@ public class FakeYACC {
 //        for(NonTerminal nt : island){ NonTerminalMap.put(nt.name,nt);NonTerminals.add(nt); }
 */      //test
 
+        System.out.println("------------------------------------------------");
         System.out.println("clean unreachable NonTerminals after ELR");
-        System.out.println("before remove unreachable: number of NonTerminals:"+NonTerminals.size());
+        System.out.println("before remove unreachable: number of NonTerminals:" + NonTerminals.size());
         driver.removeUnreachableNonTerminals();
+        System.out.println("after remove unreachable: number of NonTerminals:" + NonTerminals.size());
         System.out.println("------------------------------------------------");
-        System.out.println("after remove unreachable: number of NonTerminals:"+NonTerminals.size());
-        printAsBisonBNF();
+//        System.out.println(printAsBisonBNF());
 
-        System.out.println("the identity between NonTerminalMap & NonTerminals:"+driver.examNonTerminalMapAndNonTerminals());
+        System.out.println("the identity between NonTerminalMap & NonTerminals:" + driver.examNonTerminalMapAndNonTerminals());
+
+        int size = NonTerminalMap.size();
+        while (cl){
+            System.out.println("------------------------------------------------");
+            System.out.println("before extract left common factors, number of NonTerminals:" + NonTerminals.size());
+            driver.extractLeftCommonFactor();
+            System.out.println("after extract left common factors, number of NonTerminals:" + NonTerminals.size());
+            System.out.println("the identity between NonTerminalMap & NonTerminals:" + driver.examNonTerminalMapAndNonTerminals());
+            System.out.println("------------------------------------------------");
+
+            if(size == NonTerminalMap.size())cl = false;
+            size = NonTerminalMap.size();
+        }
 
         System.out.println("------------------------------------------------");
-        System.out.println("before extract left common factors, number of NonTerminals:"+NonTerminals.size());
-        driver.extractLeftCommonFactor();
-//        System.out.println(printNonTerminals());
-        System.out.println("after extract left common factors, number of NonTerminals:"+NonTerminals.size());
-        System.out.println("the identity between NonTerminalMap & NonTerminals:"+driver.examNonTerminalMapAndNonTerminals());
-
-
-        //remove error
-//        System.out.println("clean unreachable NonTerminals after ELC");
-//        System.out.println("before remove unreachable: number of NonTerminals:"+NonTerminals.size());
-//        driver.removeUnreachableNonTerminals();
-//        System.out.println("------------------------------------------------");
-//        System.out.println("after remove unreachable: number of NonTerminals:"+NonTerminals.size());
-
-        printAsBisonBNF();
+        System.out.println("clean unreachable NonTerminals after ELC");
+        System.out.println("before remove unreachable: number of NonTerminals:" + NonTerminals.size());
+        driver.removeUnreachableNonTerminals();
+        System.out.println("after remove unreachable: number of NonTerminals:" + NonTerminals.size());
         System.out.println("------------------------------------------------");
+
+        driver.examNonTerminalUnique();
+
+        String BNF = printAsBisonBNF();
+        Writer writer = createFileWriter(directory+"/out/BisonBNF");
+        try {
+            writer.write(BNF);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         driver.fillDomainDeriveToNul();
         driver.buildCollectionFIRST();
         System.out.println("FIRST collection has no intersection:"+driver.examIntersectionOfFISRTCollection());
-//        System.out.println("---------------------------FIRST  Collection-------------------------------");
-        printFIRST();
+        System.out.println("---------------------------FIRST  Collection-------------------------------");
+
+        String FIRSTString = printFIRST();
+        writer = createFileWriter(directory+"/out/FIRST");
+        try {
+            writer.write(FIRSTString);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("exam the correctness of NonTerminals :" + driver.examDeriveToNul());
         driver.buildCollectionFOLLOW();
-//        System.out.println("---------------------------FOLLOW  Collection-------------------------------");
-        printFOLLOW();
-        System.out.println("FIRST collection has no intersection:"+driver.examIntersectionOfFIRSTAndFOLLOW());
+        System.out.println("---------------------------FOLLOW  Collection-------------------------------");
+
+        String FOLLOWtring = printFOLLOW();
+        writer = createFileWriter(directory+"/out/FOLLOW");
+        try {
+            writer.write(FOLLOWtring);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("FIRST and FOLLOW collection has no intersection:"+driver.examIntersectionOfFIRSTAndFOLLOW());
         driver.readFIRSTAndFOLLOW2Exam(true,true);
         driver.buildParsingTable();
         System.out.println();
@@ -694,6 +752,7 @@ public class FakeYACC {
         if(NonTerminals.size()==NonTerminalMap.values().size()){
             for(NonTerminal nt : NonTerminals){
                 if(!NonTerminalMap.values().contains(nt))return false;
+                if(NonTerminalMap.get(nt.name)!=nt)return false;
             }
             return true;
         }
@@ -762,5 +821,18 @@ public class FakeYACC {
             System.out.println("create file failed");
         }
         return writer;
+    }
+
+    private void examNonTerminalUnique(){
+        for(NonTerminal nt : NonTerminals){
+            for(Candidate candidate : nt.candidateList()){
+                for(Symbol symbol : candidate.symbols){
+                    if(symbol.isNonTerminal() && symbol!= NonTerminalMap.get(symbol.name)){
+                        System.out.println("error");
+                        System.exit(-1);
+                    }
+                }
+            }
+        }
     }
 }

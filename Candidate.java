@@ -36,6 +36,7 @@ public class Candidate implements Comparable{
     Candidate(Candidate candidate){
         this.symbols = new LinkedList<>(candidate.symbols);
         this.FIRST = new HashSet<>();
+        this.deriveToNul = candidate.deriveToNul;
     }
 
     Candidate(List<Symbol> symbols){
@@ -135,7 +136,6 @@ public class Candidate implements Comparable{
                 Set<Terminal> preFOLLOW = ((NonTerminal)preSymbol).FOLLOW;
                 preSize = preFOLLOW.size();
                 boolean containsNul = preFOLLOW.contains(Terminal.nul);
-                out:
                 for(int j = i;j<symbols.size();j++){//add FIRST(β)-{ε} to FOLLOW(B)
                     if(symbols.get(j).isTerminal()){
                         if(symbols.get(j)!=Terminal.nul){
@@ -143,10 +143,11 @@ public class Candidate implements Comparable{
                             break;
                         }
                     }else{
-                        for(Candidate candidate : ((NonTerminal)symbols.get(j)).candidateList()){
-                            preFOLLOW.addAll(candidate.FIRST);
-                            if(!((NonTerminal)symbols.get(j)).deriveToNul)break out;
-                        }
+//                        for(Candidate candidate : ((NonTerminal)symbols.get(j)).candidateList()){
+//                            preFOLLOW.addAll(candidate.FIRST);
+//                        }
+                        preFOLLOW.addAll(((NonTerminal)symbols.get(j)).getFIRST());
+                        if(!((NonTerminal)symbols.get(j)).deriveToNul)break;
                     }
                 }
                 if(!containsNul){//FIRST(symbol) - nul

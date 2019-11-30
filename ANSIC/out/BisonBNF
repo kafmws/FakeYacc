@@ -1,0 +1,1507 @@
+{
+argument_expression_list
+	: assignment_expression argument_expression_list1
+	;
+
+unary_expression
+	: INC_OP unary_expression
+	| DEC_OP unary_expression
+	| unary_operator cast_expression
+	| IDENTIFIER postfix_expression1
+	| CONSTANT postfix_expression1
+	| STRING_LITERAL postfix_expression1
+	| '(' expression ')' postfix_expression1
+	| SIZEOF unary_expression2
+	;
+
+unary_operator
+	: '&'
+	| '*'
+	| '+'
+	| '-'
+	| '~'
+	| '!'
+	;
+
+cast_expression
+	: INC_OP unary_expression
+	| DEC_OP unary_expression
+	| IDENTIFIER postfix_expression1
+	| CONSTANT postfix_expression1
+	| STRING_LITERAL postfix_expression1
+	| '&' cast_expression
+	| '*' cast_expression
+	| '+' cast_expression
+	| '-' cast_expression
+	| '~' cast_expression
+	| '!' cast_expression
+	| SIZEOF unary_expression2
+	| '(' cast_expression2
+	;
+
+multiplicative_expression
+	: INC_OP unary_expression multiplicative_expression1
+	| DEC_OP unary_expression multiplicative_expression1
+	| IDENTIFIER postfix_expression1 multiplicative_expression1
+	| CONSTANT postfix_expression1 multiplicative_expression1
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1
+	| '&' cast_expression multiplicative_expression1
+	| '*' cast_expression multiplicative_expression1
+	| '+' cast_expression multiplicative_expression1
+	| '-' cast_expression multiplicative_expression1
+	| '~' cast_expression multiplicative_expression1
+	| '!' cast_expression multiplicative_expression1
+	| SIZEOF multiplicative_expression2
+	| '(' multiplicative_expression22
+	;
+
+additive_expression
+	: INC_OP unary_expression multiplicative_expression1 additive_expression1
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1
+	| '&' cast_expression multiplicative_expression1 additive_expression1
+	| '*' cast_expression multiplicative_expression1 additive_expression1
+	| '+' cast_expression multiplicative_expression1 additive_expression1
+	| '-' cast_expression multiplicative_expression1 additive_expression1
+	| '~' cast_expression multiplicative_expression1 additive_expression1
+	| '!' cast_expression multiplicative_expression1 additive_expression1
+	| SIZEOF additive_expression2
+	| '(' additive_expression22
+	;
+
+shift_expression
+	: INC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1
+	| '&' cast_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| '*' cast_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| '+' cast_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| '-' cast_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| '~' cast_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| '!' cast_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| SIZEOF shift_expression2
+	| '(' shift_expression22
+	;
+
+relational_expression
+	: INC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| '&' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| '*' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| '+' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| '-' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| '~' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| '!' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| SIZEOF relational_expression2
+	| '(' relational_expression22
+	;
+
+equality_expression
+	: INC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| '&' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| '*' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| '+' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| '-' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| '~' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| '!' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| SIZEOF equality_expression2
+	| '(' equality_expression22
+	;
+
+and_expression
+	: INC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| '&' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| '*' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| '+' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| '-' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| '~' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| '!' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| SIZEOF and_expression2
+	| '(' and_expression22
+	;
+
+exclusive_or_expression
+	: INC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| '&' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| '*' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| '+' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| '-' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| '~' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| '!' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| SIZEOF exclusive_or_expression2
+	| '(' exclusive_or_expression22
+	;
+
+inclusive_or_expression
+	: INC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| '&' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| '*' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| '+' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| '-' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| '~' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| '!' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| SIZEOF inclusive_or_expression2
+	| '(' inclusive_or_expression22
+	;
+
+logical_and_expression
+	: INC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| '&' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| '*' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| '+' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| '-' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| '~' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| '!' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| SIZEOF logical_and_expression2
+	| '(' logical_and_expression22
+	;
+
+conditional_expression
+	: '-' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '*' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '~' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| INC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '&' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '+' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '!' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| SIZEOF conditional_expression22
+	| '(' conditional_expression222
+	;
+
+assignment_expression
+	: '*' cast_expression assignment_expression2
+	| CONSTANT postfix_expression1 assignment_expression2
+	| '~' cast_expression assignment_expression2
+	| INC_OP unary_expression assignment_expression2
+	| '&' cast_expression assignment_expression2
+	| STRING_LITERAL postfix_expression1 assignment_expression2
+	| '+' cast_expression assignment_expression2
+	| DEC_OP unary_expression assignment_expression2
+	| '-' cast_expression assignment_expression2
+	| IDENTIFIER postfix_expression1 assignment_expression2
+	| '!' cast_expression assignment_expression2
+	| SIZEOF assignment_expression22
+	| '(' assignment_expression222
+	;
+
+assignment_operator
+	: '='
+	| MUL_ASSIGN
+	| DIV_ASSIGN
+	| MOD_ASSIGN
+	| ADD_ASSIGN
+	| SUB_ASSIGN
+	| LEFT_ASSIGN
+	| RIGHT_ASSIGN
+	| AND_ASSIGN
+	| XOR_ASSIGN
+	| OR_ASSIGN
+	;
+
+expression
+	: '*' cast_expression expression22
+	| CONSTANT postfix_expression1 expression22
+	| '~' cast_expression expression22
+	| INC_OP unary_expression expression22
+	| '&' cast_expression expression22
+	| STRING_LITERAL postfix_expression1 expression22
+	| '+' cast_expression expression22
+	| DEC_OP unary_expression expression22
+	| '-' cast_expression expression22
+	| IDENTIFIER postfix_expression1 expression22
+	| '!' cast_expression expression22
+	| SIZEOF expression222
+	| '(' expression2222
+	;
+
+constant_expression
+	: '-' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| CONSTANT postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '*' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| STRING_LITERAL postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| IDENTIFIER postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '~' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| INC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| DEC_OP unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '&' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '+' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '!' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| SIZEOF conditional_expression22
+	| '(' conditional_expression222
+	;
+
+declaration_specifiers
+	: type_specifier declaration_specifiers2
+	| storage_class_specifier declaration_specifiers2
+	| type_qualifier declaration_specifiers2
+	;
+
+init_declarator_list
+	: init_declarator init_declarator_list1
+	;
+
+init_declarator
+	: declarator init_declarator2
+	;
+
+storage_class_specifier
+	: TYPEDEF
+	| EXTERN
+	| STATIC
+	| AUTO
+	| REGISTER
+	;
+
+type_specifier
+	: VOID
+	| CHAR
+	| SHORT
+	| INT
+	| LONG
+	| FLOAT
+	| DOUBLE
+	| SIGNED
+	| UNSIGNED
+	| struct_or_union_specifier
+	| enum_specifier
+	| TYPE_NAME
+	;
+
+struct_or_union_specifier
+	: struct_or_union struct_or_union_specifier22
+	;
+
+struct_or_union
+	: STRUCT
+	| UNION
+	;
+
+struct_declaration_list
+	: struct_declaration struct_declaration_list1
+	;
+
+struct_declaration
+	: specifier_qualifier_list struct_declarator_list ';'
+	;
+
+specifier_qualifier_list
+	: SHORT specifier_qualifier_list2
+	| SIGNED specifier_qualifier_list2
+	| TYPE_NAME specifier_qualifier_list2
+	| type_qualifier specifier_qualifier_list2
+	| CHAR specifier_qualifier_list2
+	| UNSIGNED specifier_qualifier_list2
+	| FLOAT specifier_qualifier_list2
+	| INT specifier_qualifier_list2
+	| VOID specifier_qualifier_list2
+	| DOUBLE specifier_qualifier_list2
+	| LONG specifier_qualifier_list2
+	| enum_specifier specifier_qualifier_list2
+	| UNION specifier_qualifier_list222
+	| STRUCT specifier_qualifier_list222
+	;
+
+struct_declarator_list
+	: struct_declarator struct_declarator_list1
+	;
+
+struct_declarator
+	: declarator struct_declarator2
+	;
+
+enum_specifier
+	: ENUM enum_specifier22
+	;
+
+enumerator_list
+	: enumerator enumerator_list1
+	;
+
+enumerator
+	: IDENTIFIER enumerator2
+	;
+
+type_qualifier
+	: CONST
+	| VOLATILE
+	;
+
+declarator
+	: pointer direct_declarator
+	| direct_declarator
+	;
+
+direct_declarator
+	: IDENTIFIER direct_declarator1
+	| '(' declarator ')' direct_declarator1
+	;
+
+pointer
+	: '*' pointer22
+	;
+
+type_qualifier_list
+	: CONST type_qualifier_list1
+	| VOLATILE type_qualifier_list1
+	;
+
+parameter_type_list
+	: parameter_list parameter_type_list2
+	;
+
+parameter_list
+	: parameter_declaration parameter_list1
+	;
+
+parameter_declaration
+	: CONST parameter_declaration22
+	| SIGNED parameter_declaration22
+	| TYPE_NAME parameter_declaration22
+	| AUTO parameter_declaration22
+	| UNSIGNED parameter_declaration22
+	| INT parameter_declaration22
+	| VOID parameter_declaration22
+	| VOLATILE parameter_declaration22
+	| DOUBLE parameter_declaration22
+	| EXTERN parameter_declaration22
+	| LONG parameter_declaration22
+	| STATIC parameter_declaration22
+	| SHORT parameter_declaration22
+	| REGISTER parameter_declaration22
+	| CHAR parameter_declaration22
+	| FLOAT parameter_declaration22
+	| TYPEDEF parameter_declaration22
+	| UNION parameter_declaration22222
+	| ENUM parameter_declaration222222
+	| STRUCT parameter_declaration22222
+	;
+
+identifier_list
+	: IDENTIFIER identifier_list1
+	;
+
+type_name
+	: CONST type_name22
+	| SHORT type_name22
+	| SIGNED type_name22
+	| TYPE_NAME type_name22
+	| CHAR type_name22
+	| UNSIGNED type_name22
+	| FLOAT type_name22
+	| INT type_name22
+	| VOID type_name22
+	| VOLATILE type_name22
+	| DOUBLE type_name22
+	| LONG type_name22
+	| UNION type_name22222
+	| ENUM type_name222222
+	| STRUCT type_name22222
+	;
+
+abstract_declarator
+	: '*' abstract_declarator222
+	;
+
+direct_abstract_declarator
+	: '[' direct_abstract_declarator2
+	| '(' direct_abstract_declarator22
+	;
+
+initializer
+	: '{' initializer_list initializer2
+	| '*' cast_expression assignment_expression2
+	| CONSTANT postfix_expression1 assignment_expression2
+	| '~' cast_expression assignment_expression2
+	| INC_OP unary_expression assignment_expression2
+	| '&' cast_expression assignment_expression2
+	| STRING_LITERAL postfix_expression1 assignment_expression2
+	| '+' cast_expression assignment_expression2
+	| DEC_OP unary_expression assignment_expression2
+	| '-' cast_expression assignment_expression2
+	| IDENTIFIER postfix_expression1 assignment_expression2
+	| '!' cast_expression assignment_expression2
+	| SIZEOF assignment_expression22
+	| '(' assignment_expression222
+	;
+
+initializer_list
+	: '{' initializer_list initializer_list22
+	| '*' cast_expression initializer_list222
+	| CONSTANT postfix_expression1 initializer_list222
+	| '~' cast_expression initializer_list222
+	| INC_OP unary_expression initializer_list222
+	| '&' cast_expression initializer_list222
+	| STRING_LITERAL postfix_expression1 initializer_list222
+	| '+' cast_expression initializer_list222
+	| DEC_OP unary_expression initializer_list222
+	| '-' cast_expression initializer_list222
+	| IDENTIFIER postfix_expression1 initializer_list222
+	| '!' cast_expression initializer_list222
+	| SIZEOF initializer_list2222
+	| '(' initializer_list22222
+	;
+
+statement
+	: labeled_statement
+	| compound_statement
+	| expression_statement
+	| selection_statement
+	| iteration_statement
+	| jump_statement
+	;
+
+labeled_statement
+	: IDENTIFIER ':' statement
+	| CASE constant_expression ':' statement
+	| DEFAULT ':' statement
+	;
+
+compound_statement
+	: '{' compound_statement22
+	;
+
+declaration_list
+	: CONST declaration_list22
+	| SIGNED declaration_list22
+	| TYPE_NAME declaration_list22
+	| AUTO declaration_list22
+	| UNSIGNED declaration_list22
+	| INT declaration_list22
+	| VOID declaration_list22
+	| VOLATILE declaration_list22
+	| DOUBLE declaration_list22
+	| EXTERN declaration_list22
+	| LONG declaration_list22
+	| STATIC declaration_list22
+	| SHORT declaration_list22
+	| REGISTER declaration_list22
+	| CHAR declaration_list22
+	| FLOAT declaration_list22
+	| TYPEDEF declaration_list22
+	| UNION declaration_list22222
+	| ENUM declaration_list222222
+	| STRUCT declaration_list22222
+	;
+
+statement_list
+	: expression_statement statement_list1
+	| selection_statement statement_list1
+	| iteration_statement statement_list1
+	| jump_statement statement_list1
+	| IDENTIFIER ':' statement statement_list1
+	| CASE constant_expression ':' statement statement_list1
+	| DEFAULT ':' statement statement_list1
+	| '{' statement_list22
+	;
+
+expression_statement
+	: ';'
+	| '*' cast_expression expression_statement22
+	| CONSTANT postfix_expression1 expression_statement22
+	| '~' cast_expression expression_statement22
+	| INC_OP unary_expression expression_statement22
+	| '&' cast_expression expression_statement22
+	| STRING_LITERAL postfix_expression1 expression_statement22
+	| '+' cast_expression expression_statement22
+	| DEC_OP unary_expression expression_statement22
+	| '-' cast_expression expression_statement22
+	| IDENTIFIER postfix_expression1 expression_statement22
+	| '!' cast_expression expression_statement22
+	| SIZEOF expression_statement222
+	| '(' expression_statement2222
+	;
+
+selection_statement
+	: SWITCH '(' expression ')' statement
+	| IF '(' expression ')' statement selection_statement2
+	;
+
+iteration_statement
+	: WHILE '(' expression ')' statement
+	| DO statement WHILE '(' expression ')' ';'
+	| FOR '(' expression_statement expression_statement iteration_statement2
+	;
+
+jump_statement
+	: GOTO IDENTIFIER ';'
+	| CONTINUE ';'
+	| BREAK ';'
+	| RETURN jump_statement2
+	;
+
+translation_unit
+	: external_declaration translation_unit1
+	;
+
+external_declaration
+	: function_definition
+	| CONST external_declaration22
+	| SIGNED external_declaration22
+	| TYPE_NAME external_declaration22
+	| AUTO external_declaration22
+	| UNSIGNED external_declaration22
+	| INT external_declaration22
+	| VOID external_declaration22
+	| VOLATILE external_declaration22
+	| DOUBLE external_declaration22
+	| EXTERN external_declaration22
+	| LONG external_declaration22
+	| STATIC external_declaration22
+	| SHORT external_declaration22
+	| REGISTER external_declaration22
+	| CHAR external_declaration22
+	| FLOAT external_declaration22
+	| TYPEDEF external_declaration22
+	| UNION external_declaration22222
+	| ENUM external_declaration222222
+	| STRUCT external_declaration22222
+	;
+
+function_definition
+	: IDENTIFIER direct_declarator1 function_definition2
+	| '(' declarator ')' direct_declarator1 function_definition2
+	| CONST function_definition22
+	| SIGNED function_definition22
+	| TYPE_NAME function_definition22
+	| AUTO function_definition22
+	| UNSIGNED function_definition22
+	| INT function_definition22
+	| VOID function_definition22
+	| VOLATILE function_definition22
+	| DOUBLE function_definition22
+	| EXTERN function_definition22
+	| LONG function_definition22
+	| STATIC function_definition22
+	| SHORT function_definition22
+	| CHAR function_definition22
+	| REGISTER function_definition22
+	| FLOAT function_definition22
+	| TYPEDEF function_definition22
+	| '*' function_definition22222
+	| UNION function_definition2222222
+	| ENUM function_definition22222222
+	| STRUCT function_definition2222222
+	;
+
+postfix_expression1
+	: '[' expression ']' postfix_expression1
+	| '.' IDENTIFIER postfix_expression1
+	| PTR_OP IDENTIFIER postfix_expression1
+	| INC_OP postfix_expression1
+	| DEC_OP postfix_expression1
+	| ε
+	| '(' postfix_expression12
+	;
+
+argument_expression_list1
+	: ',' assignment_expression argument_expression_list1
+	| ε
+	;
+
+multiplicative_expression1
+	: '*' cast_expression multiplicative_expression1
+	| '/' cast_expression multiplicative_expression1
+	| '%' cast_expression multiplicative_expression1
+	| ε
+	;
+
+additive_expression1
+	: '+' multiplicative_expression additive_expression1
+	| '-' multiplicative_expression additive_expression1
+	| ε
+	;
+
+shift_expression1
+	: LEFT_OP additive_expression shift_expression1
+	| RIGHT_OP additive_expression shift_expression1
+	| ε
+	;
+
+relational_expression1
+	: '<' shift_expression relational_expression1
+	| '>' shift_expression relational_expression1
+	| LE_OP shift_expression relational_expression1
+	| GE_OP shift_expression relational_expression1
+	| ε
+	;
+
+equality_expression1
+	: EQ_OP relational_expression equality_expression1
+	| NE_OP relational_expression equality_expression1
+	| ε
+	;
+
+and_expression1
+	: '&' equality_expression and_expression1
+	| ε
+	;
+
+exclusive_or_expression1
+	: '^' and_expression exclusive_or_expression1
+	| ε
+	;
+
+inclusive_or_expression1
+	: '|' exclusive_or_expression inclusive_or_expression1
+	| ε
+	;
+
+logical_and_expression1
+	: AND_OP inclusive_or_expression logical_and_expression1
+	| ε
+	;
+
+logical_or_expression1
+	: OR_OP logical_and_expression logical_or_expression1
+	| ε
+	;
+
+expression1
+	: ',' assignment_expression expression1
+	| ε
+	;
+
+init_declarator_list1
+	: ',' init_declarator init_declarator_list1
+	| ε
+	;
+
+struct_declaration_list1
+	: ε
+	| CONST struct_declaration_list12
+	| SHORT struct_declaration_list12
+	| SIGNED struct_declaration_list12
+	| TYPE_NAME struct_declaration_list12
+	| CHAR struct_declaration_list12
+	| UNSIGNED struct_declaration_list12
+	| FLOAT struct_declaration_list12
+	| INT struct_declaration_list12
+	| VOID struct_declaration_list12
+	| VOLATILE struct_declaration_list12
+	| DOUBLE struct_declaration_list12
+	| LONG struct_declaration_list12
+	| UNION struct_declaration_list12222
+	| ENUM struct_declaration_list122222
+	| STRUCT struct_declaration_list12222
+	;
+
+struct_declarator_list1
+	: ',' struct_declarator struct_declarator_list1
+	| ε
+	;
+
+enumerator_list1
+	: ',' enumerator enumerator_list1
+	| ε
+	;
+
+direct_declarator1
+	: ε
+	| '[' direct_declarator12
+	| '(' direct_declarator122
+	;
+
+type_qualifier_list1
+	: ε
+	| CONST type_qualifier_list1
+	| VOLATILE type_qualifier_list1
+	;
+
+parameter_list1
+	: ',' parameter_declaration parameter_list1
+	| ε
+	;
+
+identifier_list1
+	: ',' IDENTIFIER identifier_list1
+	| ε
+	;
+
+direct_abstract_declarator1
+	: ']' direct_abstract_declarator1
+	| constant_expression ']' direct_abstract_declarator1
+	| ')' direct_abstract_declarator1
+	| parameter_type_list ')' direct_abstract_declarator1
+	| ε
+	;
+
+initializer_list1
+	: ',' initializer initializer_list1
+	| ε
+	;
+
+declaration_list1
+	: ε
+	| CONST declaration_list22
+	| SIGNED declaration_list22
+	| TYPE_NAME declaration_list22
+	| AUTO declaration_list22
+	| UNSIGNED declaration_list22
+	| INT declaration_list22
+	| VOID declaration_list22
+	| VOLATILE declaration_list22
+	| DOUBLE declaration_list22
+	| EXTERN declaration_list22
+	| LONG declaration_list22
+	| STATIC declaration_list22
+	| SHORT declaration_list22
+	| REGISTER declaration_list22
+	| CHAR declaration_list22
+	| FLOAT declaration_list22
+	| TYPEDEF declaration_list22
+	| UNION declaration_list22222
+	| ENUM declaration_list222222
+	| STRUCT declaration_list22222
+	;
+
+statement_list1
+	: ε
+	| CASE constant_expression ':' statement statement_list1
+	| DEFAULT ':' statement statement_list1
+	| SWITCH '(' expression ')' statement statement_list1
+	| WHILE '(' expression ')' statement statement_list1
+	| DO statement WHILE '(' expression ')' ';' statement_list1
+	| GOTO IDENTIFIER ';' statement_list1
+	| CONTINUE ';' statement_list1
+	| BREAK ';' statement_list1
+	| RETURN statement_list122
+	| FOR '(' expression_statement expression_statement statement_list1222
+	| IF '(' expression ')' statement statement_list12222
+	| '*' cast_expression statement_list122222
+	| CONSTANT postfix_expression1 statement_list122222
+	| '~' cast_expression statement_list122222
+	| INC_OP unary_expression statement_list122222
+	| '&' cast_expression statement_list122222
+	| STRING_LITERAL postfix_expression1 statement_list122222
+	| '+' cast_expression statement_list122222
+	| DEC_OP unary_expression statement_list122222
+	| '-' cast_expression statement_list122222
+	| '!' cast_expression statement_list122222
+	| '{' statement_list22
+	| SIZEOF statement_list1222222
+	| '(' statement_list12222222
+	| IDENTIFIER statement_list122222222
+	;
+
+translation_unit1
+	: ε
+	| '(' declarator ')' direct_declarator1 translation_unit12
+	| IDENTIFIER direct_declarator1 translation_unit12
+	| '*' translation_unit12222
+	| CONST translation_unit122222
+	| SIGNED translation_unit122222
+	| TYPE_NAME translation_unit122222
+	| AUTO translation_unit122222
+	| UNSIGNED translation_unit122222
+	| INT translation_unit122222
+	| VOID translation_unit122222
+	| VOLATILE translation_unit122222
+	| DOUBLE translation_unit122222
+	| EXTERN translation_unit122222
+	| LONG translation_unit122222
+	| STATIC translation_unit122222
+	| SHORT translation_unit122222
+	| REGISTER translation_unit122222
+	| CHAR translation_unit122222
+	| FLOAT translation_unit122222
+	| TYPEDEF translation_unit122222
+	| UNION translation_unit122222222
+	| ENUM translation_unit1222222222
+	| STRUCT translation_unit122222222
+	;
+
+unary_expression2
+	: unary_expression
+	| '(' type_name ')'
+	;
+
+cast_expression2
+	: type_name ')' cast_expression
+	| expression ')' postfix_expression1
+	;
+
+multiplicative_expression2
+	: unary_expression multiplicative_expression1
+	| '(' type_name ')' multiplicative_expression1
+	;
+
+multiplicative_expression22
+	: type_name ')' cast_expression multiplicative_expression1
+	| expression ')' postfix_expression1 multiplicative_expression1
+	;
+
+additive_expression2
+	: unary_expression multiplicative_expression1 additive_expression1
+	| '(' type_name ')' multiplicative_expression1 additive_expression1
+	;
+
+additive_expression22
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1
+	| expression ')' postfix_expression1 multiplicative_expression1 additive_expression1
+	;
+
+shift_expression2
+	: unary_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| '(' type_name ')' multiplicative_expression1 additive_expression1 shift_expression1
+	;
+
+shift_expression22
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1
+	| expression ')' postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1
+	;
+
+relational_expression2
+	: unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| '(' type_name ')' multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	;
+
+relational_expression22
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	| expression ')' postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1
+	;
+
+equality_expression2
+	: unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| '(' type_name ')' multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	;
+
+equality_expression22
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	| expression ')' postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1
+	;
+
+and_expression2
+	: unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| '(' type_name ')' multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	;
+
+and_expression22
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	| expression ')' postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1
+	;
+
+exclusive_or_expression2
+	: unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| '(' type_name ')' multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	;
+
+exclusive_or_expression22
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	| expression ')' postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1
+	;
+
+inclusive_or_expression2
+	: unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| '(' type_name ')' multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	;
+
+inclusive_or_expression22
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	| expression ')' postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1
+	;
+
+logical_and_expression2
+	: unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| '(' type_name ')' multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	;
+
+logical_and_expression22
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	| expression ')' postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1
+	;
+
+conditional_expression2
+	: '?' expression ':' conditional_expression
+	| ε
+	;
+
+conditional_expression22
+	: unary_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| '(' type_name ')' multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	;
+
+conditional_expression222
+	: expression ')' postfix_expression1 multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	;
+
+assignment_expression2
+	: assignment_operator assignment_expression
+	| multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	;
+
+assignment_expression22
+	: unary_expression assignment_expression2
+	| '(' type_name ')' assignment_expression2
+	;
+
+assignment_expression222
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 conditional_expression2
+	| expression ')' postfix_expression1 assignment_expression2
+	;
+
+expression2
+	: '?' expression ':' conditional_expression expression1
+	| expression1
+	;
+
+expression22
+	: assignment_operator assignment_expression expression1
+	| multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 expression2
+	;
+
+expression222
+	: unary_expression expression22
+	| '(' type_name ')' expression22
+	;
+
+expression2222
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 expression2
+	| expression ')' postfix_expression1 expression22
+	;
+
+declaration_specifiers2
+	: ε
+	| declaration_specifiers
+	;
+
+init_declarator2
+	: ε
+	| '=' initializer
+	;
+
+struct_or_union_specifier2
+	: '{' struct_declaration_list '}'
+	| ε
+	;
+
+struct_or_union_specifier22
+	: '{' struct_declaration_list '}'
+	| IDENTIFIER struct_or_union_specifier2
+	;
+
+specifier_qualifier_list2
+	: specifier_qualifier_list
+	| ε
+	;
+
+specifier_qualifier_list22
+	: specifier_qualifier_list
+	| '{' struct_declaration_list '}' specifier_qualifier_list2
+	| ε
+	;
+
+specifier_qualifier_list222
+	: '{' struct_declaration_list '}' specifier_qualifier_list2
+	| IDENTIFIER specifier_qualifier_list22
+	;
+
+struct_declarator2
+	: ε
+	| ':' constant_expression
+	;
+
+enum_specifier2
+	: '{' enumerator_list '}'
+	| ε
+	;
+
+enum_specifier22
+	: '{' enumerator_list '}'
+	| IDENTIFIER enum_specifier2
+	;
+
+enumerator2
+	: ε
+	| '=' constant_expression
+	;
+
+pointer2
+	: ε
+	| pointer
+	;
+
+pointer22
+	: ε
+	| pointer
+	| type_qualifier_list pointer2
+	;
+
+parameter_type_list2
+	: ε
+	| ',' ELLIPSIS
+	;
+
+parameter_declaration2
+	: declarator
+	| abstract_declarator
+	| ε
+	;
+
+parameter_declaration22
+	: abstract_declarator
+	| ε
+	| declaration_specifiers parameter_declaration2
+	| declarator
+	;
+
+parameter_declaration222
+	: '{' struct_declaration_list '}' parameter_declaration22
+	| declarator
+	| abstract_declarator
+	| ε
+	| declaration_specifiers parameter_declaration2
+	;
+
+parameter_declaration2222
+	: declarator
+	| '{' enumerator_list '}' parameter_declaration22
+	| abstract_declarator
+	| ε
+	| declaration_specifiers parameter_declaration2
+	;
+
+parameter_declaration22222
+	: '{' struct_declaration_list '}' parameter_declaration22
+	| IDENTIFIER parameter_declaration222
+	;
+
+parameter_declaration222222
+	: IDENTIFIER parameter_declaration2222
+	| '{' enumerator_list '}' parameter_declaration22
+	;
+
+type_name2
+	: ε
+	| abstract_declarator
+	;
+
+type_name22
+	: specifier_qualifier_list type_name2
+	| ε
+	| abstract_declarator
+	;
+
+type_name222
+	: ε
+	| abstract_declarator
+	| specifier_qualifier_list type_name2
+	| '{' struct_declaration_list '}' type_name22
+	;
+
+type_name2222
+	: '{' enumerator_list '}' type_name22
+	| ε
+	| abstract_declarator
+	| specifier_qualifier_list type_name2
+	;
+
+type_name22222
+	: '{' struct_declaration_list '}' type_name22
+	| IDENTIFIER type_name222
+	;
+
+type_name222222
+	: IDENTIFIER type_name2222
+	| '{' enumerator_list '}' type_name22
+	;
+
+abstract_declarator2
+	: ε
+	| direct_abstract_declarator
+	;
+
+abstract_declarator22
+	: ε
+	| direct_abstract_declarator
+	| pointer abstract_declarator2
+	;
+
+abstract_declarator222
+	: ε
+	| direct_abstract_declarator
+	| pointer abstract_declarator2
+	| type_qualifier_list abstract_declarator22
+	;
+
+direct_abstract_declarator2
+	: ']' direct_abstract_declarator1
+	| constant_expression ']' direct_abstract_declarator1
+	;
+
+direct_abstract_declarator22
+	: abstract_declarator ')' direct_abstract_declarator1
+	| ')' direct_abstract_declarator1
+	| parameter_type_list ')' direct_abstract_declarator1
+	;
+
+initializer2
+	: '}'
+	| ',' '}'
+	;
+
+initializer_list2
+	: '?' expression ':' conditional_expression initializer_list1
+	| initializer_list1
+	;
+
+initializer_list22
+	: '}' initializer_list1
+	| ',' '}' initializer_list1
+	;
+
+initializer_list222
+	: assignment_operator assignment_expression initializer_list1
+	| multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 initializer_list2
+	;
+
+initializer_list2222
+	: unary_expression initializer_list222
+	| '(' type_name ')' initializer_list222
+	;
+
+initializer_list22222
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 initializer_list2
+	| expression ')' postfix_expression1 initializer_list222
+	;
+
+compound_statement2
+	: '}'
+	| statement_list '}'
+	;
+
+compound_statement22
+	: '}'
+	| statement_list '}'
+	| declaration_list compound_statement2
+	;
+
+declaration_list2
+	: ';' declaration_list1
+	| init_declarator_list ';' declaration_list1
+	;
+
+declaration_list22
+	: init_declarator_list ';' declaration_list1
+	| declaration_specifiers declaration_list2
+	| ';' declaration_list1
+	;
+
+declaration_list222
+	: ';' declaration_list1
+	| init_declarator_list ';' declaration_list1
+	| declaration_specifiers declaration_list2
+	| '{' struct_declaration_list '}' declaration_list22
+	;
+
+declaration_list2222
+	: ';' declaration_list1
+	| init_declarator_list ';' declaration_list1
+	| declaration_specifiers declaration_list2
+	| '{' enumerator_list '}' declaration_list22
+	;
+
+declaration_list22222
+	: '{' struct_declaration_list '}' declaration_list22
+	| IDENTIFIER declaration_list222
+	;
+
+declaration_list222222
+	: IDENTIFIER declaration_list2222
+	| '{' enumerator_list '}' declaration_list22
+	;
+
+statement_list2
+	: '}' statement_list1
+	| statement_list '}' statement_list1
+	;
+
+statement_list22
+	: '}' statement_list1
+	| statement_list '}' statement_list1
+	| declaration_list statement_list2
+	;
+
+expression_statement2
+	: '?' expression ':' conditional_expression expression1 ';'
+	| expression1 ';'
+	;
+
+expression_statement22
+	: assignment_operator assignment_expression expression1 ';'
+	| multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 expression_statement2
+	;
+
+expression_statement222
+	: unary_expression expression_statement22
+	| '(' type_name ')' expression_statement22
+	;
+
+expression_statement2222
+	: type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 expression_statement2
+	| expression ')' postfix_expression1 expression_statement22
+	;
+
+selection_statement2
+	: ε
+	| ELSE statement
+	;
+
+iteration_statement2
+	: ')' statement
+	| expression ')' statement
+	;
+
+jump_statement2
+	: ';'
+	| expression ';'
+	;
+
+external_declaration2
+	: ';'
+	| init_declarator_list ';'
+	;
+
+external_declaration22
+	: ';'
+	| init_declarator_list ';'
+	| declaration_specifiers external_declaration2
+	;
+
+external_declaration222
+	: '{' struct_declaration_list '}' external_declaration22
+	| ';'
+	| init_declarator_list ';'
+	| declaration_specifiers external_declaration2
+	;
+
+external_declaration2222
+	: ';'
+	| init_declarator_list ';'
+	| declaration_specifiers external_declaration2
+	| '{' enumerator_list '}' external_declaration22
+	;
+
+external_declaration22222
+	: '{' struct_declaration_list '}' external_declaration22
+	| IDENTIFIER external_declaration222
+	;
+
+external_declaration222222
+	: IDENTIFIER external_declaration2222
+	| '{' enumerator_list '}' external_declaration22
+	;
+
+function_definition2
+	: declaration_list compound_statement
+	| compound_statement
+	;
+
+function_definition22
+	: declarator function_definition2
+	| declaration_specifiers declarator function_definition2
+	;
+
+function_definition222
+	: direct_declarator function_definition2
+	| pointer direct_declarator function_definition2
+	;
+
+function_definition2222
+	: declarator function_definition2
+	| '{' struct_declaration_list '}' function_definition22
+	| declaration_specifiers declarator function_definition2
+	;
+
+function_definition22222
+	: pointer direct_declarator function_definition2
+	| direct_declarator function_definition2
+	| type_qualifier_list function_definition222
+	;
+
+function_definition222222
+	: declaration_specifiers declarator function_definition2
+	| declarator function_definition2
+	| '{' enumerator_list '}' function_definition22
+	;
+
+function_definition2222222
+	: '{' struct_declaration_list '}' function_definition22
+	| IDENTIFIER function_definition2222
+	;
+
+function_definition22222222
+	: IDENTIFIER function_definition222222
+	| '{' enumerator_list '}' function_definition22
+	;
+
+postfix_expression12
+	: ')' postfix_expression1
+	| argument_expression_list ')' postfix_expression1
+	;
+
+struct_declaration_list12
+	: specifier_qualifier_list struct_declarator_list ';' struct_declaration_list1
+	| struct_declarator_list ';' struct_declaration_list1
+	;
+
+struct_declaration_list122
+	: specifier_qualifier_list struct_declarator_list ';' struct_declaration_list1
+	| struct_declarator_list ';' struct_declaration_list1
+	| '{' struct_declaration_list '}' struct_declaration_list12
+	;
+
+struct_declaration_list1222
+	: specifier_qualifier_list struct_declarator_list ';' struct_declaration_list1
+	| struct_declarator_list ';' struct_declaration_list1
+	| '{' enumerator_list '}' struct_declaration_list12
+	;
+
+struct_declaration_list12222
+	: IDENTIFIER struct_declaration_list122
+	| '{' struct_declaration_list '}' struct_declaration_list12
+	;
+
+struct_declaration_list122222
+	: IDENTIFIER struct_declaration_list1222
+	| '{' enumerator_list '}' struct_declaration_list12
+	;
+
+direct_declarator12
+	: constant_expression ']' direct_declarator1
+	| ']' direct_declarator1
+	;
+
+direct_declarator122
+	: parameter_type_list ')' direct_declarator1
+	| identifier_list ')' direct_declarator1
+	| ')' direct_declarator1
+	;
+
+statement_list12
+	: '?' expression ':' conditional_expression expression1 ';' statement_list1
+	| expression1 ';' statement_list1
+	;
+
+statement_list122
+	: expression ';' statement_list1
+	| ';' statement_list1
+	;
+
+statement_list1222
+	: ')' statement statement_list1
+	| expression ')' statement statement_list1
+	;
+
+statement_list12222
+	: statement_list1
+	| ELSE statement statement_list1
+	;
+
+statement_list122222
+	: multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 statement_list12
+	| assignment_operator assignment_expression expression1 ';' statement_list1
+	;
+
+statement_list1222222
+	: '(' type_name ')' statement_list122222
+	| unary_expression statement_list122222
+	;
+
+statement_list12222222
+	: expression ')' postfix_expression1 statement_list122222
+	| type_name ')' cast_expression multiplicative_expression1 additive_expression1 shift_expression1 relational_expression1 equality_expression1 and_expression1 exclusive_or_expression1 inclusive_or_expression1 logical_and_expression1 logical_or_expression1 statement_list12
+	;
+
+statement_list122222222
+	: ':' statement statement_list1
+	| postfix_expression1 statement_list122222
+	;
+
+translation_unit12
+	: declaration_list compound_statement translation_unit1
+	| compound_statement translation_unit1
+	;
+
+translation_unit122
+	: direct_declarator translation_unit12
+	| pointer direct_declarator translation_unit12
+	;
+
+translation_unit1222
+	: ';' translation_unit1
+	| init_declarator_list ';' translation_unit1
+	| declarator translation_unit12
+	;
+
+translation_unit12222
+	: type_qualifier_list translation_unit122
+	| pointer direct_declarator translation_unit12
+	| direct_declarator translation_unit12
+	;
+
+translation_unit122222
+	: ';' translation_unit1
+	| init_declarator_list ';' translation_unit1
+	| declaration_specifiers translation_unit1222
+	| declarator translation_unit12
+	;
+
+translation_unit1222222
+	: ';' translation_unit1
+	| init_declarator_list ';' translation_unit1
+	| '{' struct_declaration_list '}' translation_unit122222
+	| declarator translation_unit12
+	| declaration_specifiers translation_unit1222
+	;
+
+translation_unit12222222
+	: ';' translation_unit1
+	| init_declarator_list ';' translation_unit1
+	| '{' enumerator_list '}' translation_unit122222
+	| declarator translation_unit12
+	| declaration_specifiers translation_unit1222
+	;
+
+translation_unit122222222
+	: '{' struct_declaration_list '}' translation_unit122222
+	| IDENTIFIER translation_unit1222222
+	;
+
+translation_unit1222222222
+	: IDENTIFIER translation_unit12222222
+	| '{' enumerator_list '}' translation_unit122222
+	;
+
+}

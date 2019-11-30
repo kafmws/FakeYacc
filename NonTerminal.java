@@ -19,7 +19,7 @@ public class NonTerminal extends Symbol {
 
     NonTerminal(String name) { super(name); }
 
-    public NonTerminal(String name, List<Candidate> candidates) {
+    private NonTerminal(String name, List<Candidate> candidates) {
         super(name);
         this.candidates = candidates;
     }
@@ -123,6 +123,8 @@ public class NonTerminal extends Symbol {
                 name += PostFix.ELCPostfix ;//distinct from newly NonTerminals generate from elr
                 nt = newNonTerminalMap.get(name);
             } while(nt!=null);
+//            if(name.equals("struct_or_union_specifier2"))
+//                System.out.println("debug");
             nt = new NonTerminal(name, newCandidates);
             newNonTerminalMap.put(nt.name, nt);
         }
@@ -133,13 +135,13 @@ public class NonTerminal extends Symbol {
 
     //return true if its FOLLOW collection changed
     boolean buildFOLLOW(){
-//        boolean changed = false;
+        boolean changed = false;
         for(Candidate candidate : candidateList()){
             if(candidate.buildFOLLOW(this)){
-                return true;
+                changed = true;
             }
         }
-        return false;
+        return changed;
     }
 
     Set<Terminal> getFIRST(){
