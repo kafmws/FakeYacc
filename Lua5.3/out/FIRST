@@ -1,0 +1,171 @@
+chunk FIRST:
+[(, function, ε, ;, while, if, for, return, ::, Name, break, local, repeat, goto]
+
+block FIRST:
+[(, function, ε, ;, while, if, for, return, ::, Name, break, local, repeat, goto]
+
+stat FIRST:
+[(, function, for, Name, ::, break, ;, while, local, if, repeat, goto]
+
+retstat FIRST:
+[return]
+
+varlist FIRST:
+[(, Name]
+
+explist FIRST:
+[function, (, LiteralString, nil, false, ~, {, -, not, Name, true, Numeral, ..., #]
+
+functioncall FIRST:
+[(, Name]
+
+label FIRST:
+[::]
+
+exp FIRST:
+[function, (, LiteralString, nil, false, ~, {, -, not, Name, true, Numeral, ..., #]
+
+elseifstat FIRST:
+[ε, else]
+
+namelist FIRST:
+[Name]
+
+funcname FIRST:
+[Name]
+
+funcbody FIRST:
+[function, (, ;, while, if, for, return, break, Name, ::, local, repeat, goto]
+
+dotname FIRST:
+[., ε]
+
+var FIRST:
+[(, Name]
+
+commavar FIRST:
+[ε, ,]
+
+prefixexp FIRST:
+[(, Name]
+
+commaname FIRST:
+[ε, ,]
+
+commaexp FIRST:
+[ε, ,]
+
+functiondef FIRST:
+[function]
+
+tableconstructor FIRST:
+[{]
+
+unop FIRST:
+[-, not, ~, #]
+
+args FIRST:
+[(, LiteralString, {]
+
+parlist FIRST:
+[Name, ...]
+
+fieldlist FIRST:
+[function, (, LiteralString, nil, false, [, ~, {, -, not, Name, true, Numeral, ..., #]
+
+field FIRST:
+[function, (, LiteralString, nil, false, [, ~, {, -, not, Name, true, Numeral, ..., #]
+
+fieldsepfield FIRST:
+[ε, ;, ,]
+
+fieldsep FIRST:
+[;, ,]
+
+exp1 FIRST:
+[~=, <, or, ε, >>, >, *, and, ~, ==, <<, +, .., -, /, ^, &, %, //, >=, <=, |]
+
+prefixexp1 FIRST:
+[(, ., LiteralString, :, ε, [, {]
+
+stat2 FIRST:
+[end, else]
+
+stat22 FIRST:
+[do, ,]
+
+stat222 FIRST:
+[ε, =]
+
+stat2222 FIRST:
+[Name]
+
+stat22222 FIRST:
+[function, Name]
+
+retstat2 FIRST:
+[ε, ;]
+
+retstat22 FIRST:
+[function, (, LiteralString, nil, false, ε, ;, ~, {, -, not, Name, true, Numeral, ..., #]
+
+functioncall2 FIRST:
+[(, LiteralString, :, {]
+
+funcname2 FIRST:
+[:, ε]
+
+funcbody2 FIRST:
+[;, end]
+
+funcbody22 FIRST:
+[end, else]
+
+funcbody222 FIRST:
+[do, ,]
+
+funcbody2222 FIRST:
+[(, function, ;, while, if, =, end, for, return, ::, Name, break, local, repeat, goto]
+
+funcbody22222 FIRST:
+[), Name, ...]
+
+funcbody222222 FIRST:
+[(, LiteralString, :, {]
+
+funcbody2222222 FIRST:
+[Name]
+
+funcbody22222222 FIRST:
+[function, Name]
+
+funcbody222222222 FIRST:
+[function, (, LiteralString, nil, false, ;, end, ~, {, -, not, Name, true, Numeral, ..., #]
+
+var2 FIRST:
+[., []
+
+tableconstructor2 FIRST:
+[function, (, LiteralString, nil, false, }, [, ~, {, -, not, Name, true, Numeral, ..., #]
+
+args2 FIRST:
+[function, (, LiteralString, nil, false, ), ~, {, -, not, Name, true, Numeral, ..., #]
+
+parlist2 FIRST:
+[ε, ,]
+
+fieldlist2 FIRST:
+[ε, ;, ,]
+
+field2 FIRST:
+[function, (, LiteralString, nil, false, }, [, ~, {, -, not, Name, true, Numeral, ..., #]
+
+field22 FIRST:
+[LiteralString, or, :, ε, >>, >, =, and, +, .., -, ^, &, %, //, >=, (, ~=, <, [, *, ~, ==, {, <<, ., /, <=, |]
+
+prefixexp12 FIRST:
+[function, (, LiteralString, nil, false, }, [, ~, {, -, not, Name, true, Numeral, ..., #]
+
+prefixexp122 FIRST:
+[function, (, LiteralString, nil, false, ), ~, {, -, not, Name, true, Numeral, ..., #]
+

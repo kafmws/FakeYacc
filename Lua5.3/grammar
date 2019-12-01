@@ -1,0 +1,194 @@
+chunk
+    : block
+    ;
+
+block
+    : ε
+    | stat block
+    | retstat
+    ;
+
+stat
+    : ';'
+    | varlist '=' explist
+    | functioncall
+    | label
+    | break
+    | goto Name
+    | do block end
+    | while exp do block end
+    | repeat block until exp
+    | if exp then block elseifstat end
+    | if exp then block elseifstat else block end
+    | for Name '=' exp ',' exp do block end
+    | for Name '=' exp ',' exp ',' exp do block end
+    | for namelist in explist do block end
+    | function funcname funcbody
+    | local function Name funcbody
+    | local namelist
+    | local namelist '=' explist
+    ;
+
+elseifstat
+    : ε
+    | else if exp then block elseifstat
+    ;
+
+retstat
+    : return
+    | return ';'
+    | return explist
+    | return explist ';'
+    ;
+
+label
+    : '::' Name '::'
+    ;
+
+funcname
+    : Name dotname
+    | Name dotname ':' Name
+    ;
+
+dotname
+    : ε
+    | '.' Name dotname
+    ;
+
+varlist
+    : var commavar
+    ;
+
+commavar
+    : ε
+    | ',' var commavar
+    ;
+
+var
+    : Name
+    | prefixexp '[' exp ']'
+    | prefixexp '.' Name
+    ;
+
+namelist
+    : Name commaname
+    ;
+
+commaname
+    : ε
+    | ',' Name commaname
+    ;
+
+explist
+    : exp commaexp
+    ;
+
+commaexp
+    : ε
+    | ',' exp commaexp
+    ;
+
+exp
+    : nil
+    | false
+    | true
+    | Numeral
+    | LiteralString
+    | '...'
+    | functiondef
+    | prefixexp
+    | tableconstructor
+    | exp binop exp
+    | unop exp
+    ;
+
+prefixexp
+    : var
+    | functioncall
+    | '(' exp ')'
+    ;
+
+functioncall
+    : prefixexp args
+    | prefixexp ':' Name args
+    ;
+
+args
+    : '(' ')'
+    | '(' explist ')'
+    | tableconstructor
+    | LiteralString
+    ;
+
+functiondef
+    : function funcbody
+    ;
+
+funcbody
+    : '(' ')'
+    | '(' parlist ')'
+    | block end
+    ;
+
+parlist
+    : namelist
+    |  namelist ',' '...'
+    | '...'
+    ;
+
+tableconstructor
+    : '{' '}'
+    | '{' fieldlist '}'
+    ;
+
+fieldlist
+    : field fieldsepfield
+    | field fieldsepfield fieldsep
+    ;
+
+fieldsepfield
+    : ε
+    | fieldsep field fieldsepfield
+    ;
+
+field
+    : '[' exp ']' '=' exp
+    | Name '=' exp
+    | exp
+    ;
+
+fieldsep
+    : ','
+    | ';'
+    ;
+
+binop
+    : '+'
+    | '-'
+    | '*'
+    | '/'
+    | '//'
+    | '^'
+    | '%'
+    | '&'
+    | '~'
+    | '|'
+    | '>>'
+    | '<<'
+    | '..'
+    | '<'
+    | '<='
+    | '>'
+    | '>='
+    | '=='
+    | '~='
+    | and
+    | or
+    ;
+
+unop
+    : '-'
+    | not
+    | '#'
+    | '~'
+    ;

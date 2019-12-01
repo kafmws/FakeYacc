@@ -1,0 +1,350 @@
+{
+chunk
+	: block
+	;
+
+block
+	: ε
+	| stat block
+	| retstat
+	;
+
+stat
+	: ';'
+	| varlist '=' explist
+	| functioncall
+	| label
+	| break
+	| goto Name
+	| while exp do block end
+	| repeat block until exp
+	| function funcname funcbody
+	| if exp then block elseifstat stat2
+	| for stat2222
+	| local stat22222
+	;
+
+retstat
+	: return retstat22
+	;
+
+varlist
+	: var commavar
+	;
+
+explist
+	: exp commaexp
+	;
+
+functioncall
+	: prefixexp functioncall2
+	;
+
+label
+	: '::' Name '::'
+	;
+
+exp
+	: nil exp1
+	| false exp1
+	| true exp1
+	| Numeral exp1
+	| LiteralString exp1
+	| '...' exp1
+	| functiondef exp1
+	| prefixexp exp1
+	| tableconstructor exp1
+	| unop exp exp1
+	;
+
+elseifstat
+	: ε
+	| else if exp then block elseifstat
+	;
+
+namelist
+	: Name commaname
+	;
+
+funcname
+	: Name dotname funcname2
+	;
+
+funcbody
+	: ';' block end
+	| break block end
+	| goto Name block end
+	| while exp do block end block end
+	| repeat block until exp block end
+	| function funcname funcbody block end
+	| var commavar '=' explist block end
+	| '::' Name '::' block end
+	| if exp then block elseifstat funcbody22
+	| '(' funcbody22222
+	| prefixexp funcbody222222
+	| for funcbody2222222
+	| local funcbody22222222
+	| return funcbody222222222
+	;
+
+dotname
+	: ε
+	| '.' Name dotname
+	;
+
+var
+	: Name
+	| prefixexp var2
+	;
+
+commavar
+	: ε
+	| ',' var commavar
+	;
+
+prefixexp
+	: '(' exp ')' prefixexp1
+	| Name prefixexp1
+	;
+
+commaname
+	: ε
+	| ',' Name commaname
+	;
+
+commaexp
+	: ε
+	| ',' exp commaexp
+	;
+
+functiondef
+	: function funcbody
+	;
+
+tableconstructor
+	: '{' tableconstructor2
+	;
+
+unop
+	: '-'
+	| not
+	| '#'
+	| '~'
+	;
+
+args
+	: LiteralString
+	| '{' tableconstructor2
+	| '(' args2
+	;
+
+parlist
+	: '...'
+	| Name commaname parlist2
+	;
+
+fieldlist
+	: field fieldsepfield fieldlist2
+	;
+
+field
+	: '[' exp ']' '=' exp
+	| nil exp1
+	| false exp1
+	| true exp1
+	| Numeral exp1
+	| LiteralString exp1
+	| '...' exp1
+	| function funcbody exp1
+	| '(' exp ')' prefixexp1 exp1
+	| '-' exp exp1
+	| not exp exp1
+	| '#' exp exp1
+	| '~' exp exp1
+	| '{' field2
+	| Name field22
+	;
+
+fieldsepfield
+	: ε
+	| fieldsep field fieldsepfield
+	;
+
+fieldsep
+	: ','
+	| ';'
+	;
+
+exp1
+	: ε
+	| '+' exp exp1
+	| '-' exp exp1
+	| '*' exp exp1
+	| '/' exp exp1
+	| '//' exp exp1
+	| '^' exp exp1
+	| '%' exp exp1
+	| '&' exp exp1
+	| '~' exp exp1
+	| '|' exp exp1
+	| '>>' exp exp1
+	| '<<' exp exp1
+	| '..' exp exp1
+	| '<' exp exp1
+	| '<=' exp exp1
+	| '>' exp exp1
+	| '>=' exp exp1
+	| '==' exp exp1
+	| '~=' exp exp1
+	| and exp exp1
+	| or exp exp1
+	;
+
+prefixexp1
+	: '[' exp ']' prefixexp1
+	| '.' Name prefixexp1
+	| ':' Name args prefixexp1
+	| ε
+	| LiteralString prefixexp1
+	| '{' prefixexp12
+	| '(' prefixexp122
+	;
+
+stat2
+	: end
+	| else block end
+	;
+
+stat22
+	: do block end
+	| ',' exp do block end
+	;
+
+stat222
+	: ε
+	| '=' explist
+	;
+
+stat2222
+	: namelist in explist do block end
+	| Name '=' exp ',' exp stat22
+	;
+
+stat22222
+	: function Name funcbody
+	| namelist stat222
+	;
+
+retstat2
+	: ε
+	| ';'
+	;
+
+retstat22
+	: ε
+	| ';'
+	| explist retstat2
+	;
+
+functioncall2
+	: args
+	| ':' Name args
+	;
+
+funcname2
+	: ε
+	| ':' Name
+	;
+
+funcbody2
+	: end
+	| ';' end
+	;
+
+funcbody22
+	: end block end
+	| else block end block end
+	;
+
+funcbody222
+	: do block end block end
+	| ',' exp do block end block end
+	;
+
+funcbody2222
+	: block end
+	| '=' explist block end
+	;
+
+funcbody22222
+	: ')'
+	| parlist ')'
+	;
+
+funcbody222222
+	: args block end
+	| ':' Name args block end
+	;
+
+funcbody2222222
+	: namelist in explist do block end block end
+	| Name '=' exp ',' exp funcbody222
+	;
+
+funcbody22222222
+	: function Name funcbody block end
+	| namelist funcbody2222
+	;
+
+funcbody222222222
+	: end
+	| ';' end
+	| explist funcbody2
+	;
+
+var2
+	: '[' exp ']'
+	| '.' Name
+	;
+
+tableconstructor2
+	: '}'
+	| fieldlist '}'
+	;
+
+args2
+	: ')'
+	| explist ')'
+	;
+
+parlist2
+	: ε
+	| ',' '...'
+	;
+
+fieldlist2
+	: ε
+	| fieldsep
+	;
+
+field2
+	: '}' exp1
+	| fieldlist '}' exp1
+	;
+
+field22
+	: '=' exp
+	| prefixexp1 exp1
+	;
+
+prefixexp12
+	: '}' prefixexp1
+	| fieldlist '}' prefixexp1
+	;
+
+prefixexp122
+	: ')' prefixexp1
+	| explist ')' prefixexp1
+	;
+
+}

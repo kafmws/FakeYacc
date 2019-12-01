@@ -1,0 +1,1 @@
+break goto do end while repeat until if then elseif else for in function local return nil false true and or not Numeral LiteralString Name ... ( ) { } + - * / // ^ % & ~ | >> << .. < <= > >= == ~= :: : . [ ] , ; = #

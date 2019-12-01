@@ -1,0 +1,177 @@
+@1		chunk->block
+@2		block->ε
+@3		block->stat block
+@4		block->retstat
+@5		stat->;
+@6		stat->varlist = explist
+@7		stat->functioncall
+@8		stat->label
+@9		stat->break
+@10		stat->goto Name
+@11		stat->while exp do block end
+@12		stat->repeat block until exp
+@13		stat->function funcname funcbody
+@14		stat->if exp then block elseifstat stat2
+@15		stat->for stat2222
+@16		stat->local stat22222
+@17		retstat->return retstat22
+@18		varlist->var commavar
+@19		explist->exp commaexp
+@20		functioncall->prefixexp functioncall2
+@21		label->:: Name ::
+@22		exp->nil exp1
+@23		exp->false exp1
+@24		exp->true exp1
+@25		exp->Numeral exp1
+@26		exp->LiteralString exp1
+@27		exp->... exp1
+@28		exp->functiondef exp1
+@29		exp->prefixexp exp1
+@30		exp->tableconstructor exp1
+@31		exp->unop exp exp1
+@32		elseifstat->ε
+@33		elseifstat->else if exp then block elseifstat
+@34		namelist->Name commaname
+@35		funcname->Name dotname funcname2
+@36		funcbody->; block end
+@37		funcbody->break block end
+@38		funcbody->goto Name block end
+@39		funcbody->while exp do block end block end
+@40		funcbody->repeat block until exp block end
+@41		funcbody->function funcname funcbody block end
+@42		funcbody->var commavar = explist block end
+@43		funcbody->:: Name :: block end
+@44		funcbody->if exp then block elseifstat funcbody22
+@45		funcbody->( funcbody22222
+@46		funcbody->prefixexp funcbody222222
+@47		funcbody->for funcbody2222222
+@48		funcbody->local funcbody22222222
+@49		funcbody->return funcbody222222222
+@50		dotname->ε
+@51		dotname->. Name dotname
+@52		var->Name
+@53		var->prefixexp var2
+@54		commavar->ε
+@55		commavar->, var commavar
+@56		prefixexp->( exp ) prefixexp1
+@57		prefixexp->Name prefixexp1
+@58		commaname->ε
+@59		commaname->, Name commaname
+@60		commaexp->ε
+@61		commaexp->, exp commaexp
+@62		functiondef->function funcbody
+@63		tableconstructor->{ tableconstructor2
+@64		unop->-
+@65		unop->not
+@66		unop->#
+@67		unop->~
+@68		args->LiteralString
+@69		args->{ tableconstructor2
+@70		args->( args2
+@71		parlist->...
+@72		parlist->Name commaname parlist2
+@73		fieldlist->field fieldsepfield fieldlist2
+@74		field->[ exp ] = exp
+@75		field->nil exp1
+@76		field->false exp1
+@77		field->true exp1
+@78		field->Numeral exp1
+@79		field->LiteralString exp1
+@80		field->... exp1
+@81		field->function funcbody exp1
+@82		field->( exp ) prefixexp1 exp1
+@83		field->- exp exp1
+@84		field->not exp exp1
+@85		field-># exp exp1
+@86		field->~ exp exp1
+@87		field->{ field2
+@88		field->Name field22
+@89		fieldsepfield->ε
+@90		fieldsepfield->fieldsep field fieldsepfield
+@91		fieldsep->,
+@92		fieldsep->;
+@93		exp1->ε
+@94		exp1->+ exp exp1
+@95		exp1->- exp exp1
+@96		exp1->* exp exp1
+@97		exp1->/ exp exp1
+@98		exp1->// exp exp1
+@99		exp1->^ exp exp1
+@100		exp1->% exp exp1
+@101		exp1->& exp exp1
+@102		exp1->~ exp exp1
+@103		exp1->| exp exp1
+@104		exp1->>> exp exp1
+@105		exp1-><< exp exp1
+@106		exp1->.. exp exp1
+@107		exp1->< exp exp1
+@108		exp1-><= exp exp1
+@109		exp1->> exp exp1
+@110		exp1->>= exp exp1
+@111		exp1->== exp exp1
+@112		exp1->~= exp exp1
+@113		exp1->and exp exp1
+@114		exp1->or exp exp1
+@115		prefixexp1->[ exp ] prefixexp1
+@116		prefixexp1->. Name prefixexp1
+@117		prefixexp1->: Name args prefixexp1
+@118		prefixexp1->ε
+@119		prefixexp1->LiteralString prefixexp1
+@120		prefixexp1->{ prefixexp12
+@121		prefixexp1->( prefixexp122
+@122		stat2->end
+@123		stat2->else block end
+@124		stat22->do block end
+@125		stat22->, exp do block end
+@126		stat222->ε
+@127		stat222->= explist
+@128		stat2222->namelist in explist do block end
+@129		stat2222->Name = exp , exp stat22
+@130		stat22222->function Name funcbody
+@131		stat22222->namelist stat222
+@132		retstat2->ε
+@133		retstat2->;
+@134		retstat22->ε
+@135		retstat22->;
+@136		retstat22->explist retstat2
+@137		functioncall2->args
+@138		functioncall2->: Name args
+@139		funcname2->ε
+@140		funcname2->: Name
+@141		funcbody2->end
+@142		funcbody2->; end
+@143		funcbody22->end block end
+@144		funcbody22->else block end block end
+@145		funcbody222->do block end block end
+@146		funcbody222->, exp do block end block end
+@147		funcbody2222->block end
+@148		funcbody2222->= explist block end
+@149		funcbody22222->)
+@150		funcbody22222->parlist )
+@151		funcbody222222->args block end
+@152		funcbody222222->: Name args block end
+@153		funcbody2222222->namelist in explist do block end block end
+@154		funcbody2222222->Name = exp , exp funcbody222
+@155		funcbody22222222->function Name funcbody block end
+@156		funcbody22222222->namelist funcbody2222
+@157		funcbody222222222->end
+@158		funcbody222222222->; end
+@159		funcbody222222222->explist funcbody2
+@160		var2->[ exp ]
+@161		var2->. Name
+@162		tableconstructor2->}
+@163		tableconstructor2->fieldlist }
+@164		args2->)
+@165		args2->explist )
+@166		parlist2->ε
+@167		parlist2->, ...
+@168		fieldlist2->ε
+@169		fieldlist2->fieldsep
+@170		field2->} exp1
+@171		field2->fieldlist } exp1
+@172		field22->= exp
+@173		field22->prefixexp1 exp1
+@174		prefixexp12->} prefixexp1
+@175		prefixexp12->fieldlist } prefixexp1
+@176		prefixexp122->) prefixexp1
+@177		prefixexp122->explist ) prefixexp1

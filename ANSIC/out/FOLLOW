@@ -2,73 +2,73 @@ argument_expression_list FOLLOW:
 [)]
 
 unary_expression FOLLOW:
-[^, :, AND_ASSIGN, +, MOD_ASSIGN, &, OR_ASSIGN, LE_OP, ADD_ASSIGN, LEFT_ASSIGN, ), GE_OP, >, }, LEFT_OP, <, AND_OP, EQ_OP, NE_OP, SUB_ASSIGN, ;, *, XOR_ASSIGN, RIGHT_OP, /, OR_OP, -, |, ,, DIV_ASSIGN, =, RIGHT_ASSIGN, ], %, ?, MUL_ASSIGN]
+[LE_OP, ;, NE_OP, DIV_ASSIGN, %, AND_ASSIGN, :, ), RIGHT_OP, LEFT_ASSIGN, ], ^, XOR_ASSIGN, LEFT_OP, -, OR_ASSIGN, |, ?, /, AND_OP, }, EQ_OP, &, <, +, *, GE_OP, RIGHT_ASSIGN, ADD_ASSIGN, OR_OP, ,, >, SUB_ASSIGN, MUL_ASSIGN, MOD_ASSIGN, =]
 
 unary_operator FOLLOW:
-[INC_OP, +, STRING_LITERAL, &, *, SIZEOF, (, IDENTIFIER, CONSTANT, -, !, ~, DEC_OP]
+[SIZEOF, INC_OP, &, +, *, (, ~, DEC_OP, STRING_LITERAL, !, -, IDENTIFIER, CONSTANT]
 
 cast_expression FOLLOW:
-[^, :, AND_ASSIGN, +, MOD_ASSIGN, &, OR_ASSIGN, LE_OP, ADD_ASSIGN, LEFT_ASSIGN, ), GE_OP, >, }, LEFT_OP, <, AND_OP, EQ_OP, NE_OP, SUB_ASSIGN, ;, *, XOR_ASSIGN, RIGHT_OP, /, OR_OP, -, |, ,, DIV_ASSIGN, =, RIGHT_ASSIGN, ], %, ?, MUL_ASSIGN]
+[LE_OP, ;, NE_OP, DIV_ASSIGN, %, AND_ASSIGN, :, ), RIGHT_OP, LEFT_ASSIGN, ], ^, XOR_ASSIGN, LEFT_OP, -, OR_ASSIGN, |, ?, /, AND_OP, }, EQ_OP, &, <, +, *, GE_OP, RIGHT_ASSIGN, ADD_ASSIGN, OR_OP, ,, >, SUB_ASSIGN, MUL_ASSIGN, MOD_ASSIGN, =]
 
 multiplicative_expression FOLLOW:
-[NE_OP, ^, :, ;, +, &, LE_OP, RIGHT_OP, OR_OP, -, |, ), ,, GE_OP, >, }, ], ?, LEFT_OP, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, +, GE_OP, :, ), RIGHT_OP, ], ^, OR_OP, ,, >, LEFT_OP, -]
 
 additive_expression FOLLOW:
-[NE_OP, ^, :, ;, &, LE_OP, RIGHT_OP, OR_OP, |, ), ,, GE_OP, >, }, ], ?, LEFT_OP, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, GE_OP, :, ), RIGHT_OP, ], ^, OR_OP, ,, >, LEFT_OP]
 
 shift_expression FOLLOW:
-[NE_OP, ^, :, ;, &, LE_OP, OR_OP, |, ), ,, GE_OP, >, }, ], ?, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, GE_OP, :, ), ], ^, OR_OP, ,, >]
 
 relational_expression FOLLOW:
-[NE_OP, ^, :, ;, &, OR_OP, |, ), ,, }, ], ?, AND_OP, EQ_OP]
+[|, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, :, ), ], ^, OR_OP, ,]
 
 equality_expression FOLLOW:
-[^, :, ;, &, OR_OP, |, ), ,, }, ], ?, AND_OP]
+[|, ?, ;, AND_OP, }, &, :, ), ], ^, OR_OP, ,]
 
 and_expression FOLLOW:
-[), ^, :, ,, ;, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], ^, AND_OP, OR_OP, }, ,, :, )]
 
 exclusive_or_expression FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], AND_OP, OR_OP, }, ,, :, )]
 
 inclusive_or_expression FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?, AND_OP]
+[?, ;, ], AND_OP, OR_OP, }, ,, :, )]
 
 logical_and_expression FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?]
+[?, ;, ], OR_OP, }, ,, :, )]
 
 conditional_expression FOLLOW:
-[), :, ,, ;, ], }]
+[;, ], }, ,, :, )]
 
 assignment_expression FOLLOW:
-[), :, ,, ;, }, ]]
+[;, ], }, ,, :, )]
 
 assignment_operator FOLLOW:
-[INC_OP, +, &, STRING_LITERAL, *, SIZEOF, (, IDENTIFIER, CONSTANT, -, !, ~, DEC_OP]
+[SIZEOF, INC_OP, &, +, *, (, ~, DEC_OP, STRING_LITERAL, !, -, IDENTIFIER, CONSTANT]
 
 expression FOLLOW:
-[), :, ;, ]]
+[], ;, :, )]
 
 constant_expression FOLLOW:
-[:, ,, ;, ], }]
+[], ;, }, ,, :]
 
 declaration_specifiers FOLLOW:
-[), ,, ;, *, (, IDENTIFIER]
+[;, ,, *, IDENTIFIER, (, )]
 
 init_declarator_list FOLLOW:
 [;]
 
 init_declarator FOLLOW:
-[,, ;]
+[;, ,]
 
 storage_class_specifier FOLLOW:
-[SHORT, STATIC, CHAR, REGISTER, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, *, SIGNED, (, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, ,, VOID, INT, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, ), VOID, SHORT, CHAR, STRUCT, TYPEDEF, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, ,, UNSIGNED, INT, IDENTIFIER]
 
 type_specifier FOLLOW:
-[SHORT, STATIC, CHAR, REGISTER, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, *, SIGNED, (, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, ,, VOID, INT, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, ), VOID, SHORT, CHAR, STRUCT, TYPEDEF, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, ,, UNSIGNED, INT, IDENTIFIER]
 
 struct_or_union_specifier FOLLOW:
-[SHORT, STATIC, CHAR, REGISTER, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, *, SIGNED, (, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, ,, VOID, INT, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, ), VOID, SHORT, CHAR, STRUCT, TYPEDEF, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, ,, UNSIGNED, INT, IDENTIFIER]
 
 struct_or_union FOLLOW:
 [{, IDENTIFIER]
@@ -77,49 +77,49 @@ struct_declaration_list FOLLOW:
 [}]
 
 struct_declaration FOLLOW:
-[CONST, SHORT, SIGNED, TYPE_NAME, UNSIGNED, CHAR, VOID, UNION, INT, DOUBLE, ENUM, }, VOLATILE, STRUCT, LONG, FLOAT]
+[}, SIGNED, ENUM, LONG, TYPE_NAME, UNION, CONST, FLOAT, DOUBLE, VOID, VOLATILE, SHORT, CHAR, STRUCT, UNSIGNED, INT]
 
 specifier_qualifier_list FOLLOW:
-[), *, (, IDENTIFIER]
+[*, IDENTIFIER, (, )]
 
 struct_declarator_list FOLLOW:
 [;]
 
 struct_declarator FOLLOW:
-[,, ;]
+[;, ,]
 
 enum_specifier FOLLOW:
-[SHORT, STATIC, CHAR, REGISTER, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, *, SIGNED, (, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, ,, VOID, INT, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, ), VOID, SHORT, CHAR, STRUCT, TYPEDEF, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, ,, UNSIGNED, INT, IDENTIFIER]
 
 enumerator_list FOLLOW:
 [}]
 
 enumerator FOLLOW:
-[,, }]
+[}, ,]
 
 type_qualifier FOLLOW:
-[SHORT, STATIC, CHAR, REGISTER, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, *, SIGNED, (, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, ,, VOID, INT, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, ), VOID, SHORT, CHAR, STRUCT, TYPEDEF, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, ,, UNSIGNED, INT, IDENTIFIER]
 
 declarator FOLLOW:
-[:, SHORT, STATIC, REGISTER, CHAR, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, SIGNED, TYPE_NAME, UNSIGNED, AUTO, {, ,, VOID, INT, =, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, :, CONST, ), DOUBLE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, STATIC, AUTO, SIGNED, REGISTER, {, FLOAT, VOLATILE, ,, =, UNSIGNED, INT]
 
 direct_declarator FOLLOW:
-[:, SHORT, STATIC, REGISTER, CHAR, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, SIGNED, TYPE_NAME, UNSIGNED, AUTO, {, ,, VOID, INT, =, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, :, CONST, DOUBLE, ), VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, STATIC, AUTO, SIGNED, REGISTER, {, FLOAT, VOLATILE, ,, =, UNSIGNED, INT]
 
 pointer FOLLOW:
-[), ,, (, IDENTIFIER, []
+[,, [, IDENTIFIER, (, )]
 
 type_qualifier_list FOLLOW:
-[), ,, *, (, IDENTIFIER, []
+[,, [, *, IDENTIFIER, (, )]
 
 parameter_type_list FOLLOW:
 [)]
 
 parameter_list FOLLOW:
-[), ,]
+[,, )]
 
 parameter_declaration FOLLOW:
-[), ,]
+[,, )]
 
 identifier_list FOLLOW:
 [)]
@@ -128,91 +128,91 @@ type_name FOLLOW:
 [)]
 
 abstract_declarator FOLLOW:
-[), ,]
+[,, )]
 
 direct_abstract_declarator FOLLOW:
-[), ,]
+[,, )]
 
 initializer FOLLOW:
-[,, ;, }]
+[;, }, ,]
 
 initializer_list FOLLOW:
-[,, }]
+[}, ,]
 
 statement FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, IF, }, CASE, BREAK, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[DO, SIZEOF, CASE, INC_OP, CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 labeled_statement FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, IF, }, CASE, BREAK, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[DO, SIZEOF, CASE, INC_OP, CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 compound_statement FOLLOW:
-[SHORT, STATIC, CONSTANT, REGISTER, DEFAULT, TYPEDEF, IF, }, STRUCT, FLOAT, BREAK, ELSE, CONST, STRING_LITERAL, IDENTIFIER, -, {, CONTINUE, INT, SWITCH, EXTERN, DO, DEC_OP, INC_OP, +, &, SIZEOF, GOTO, CHAR, UNION, ENUM, CASE, RETURN, *, (, SIGNED, TYPE_NAME, UNSIGNED, FOR, AUTO, WHILE, !, VOID, ~, $end, DOUBLE, VOLATILE, LONG]
+[DO, ENUM, INC_OP, LONG, TYPE_NAME, CONST, DOUBLE, SHORT, BREAK, TYPEDEF, STRUCT, !, EXTERN, RETURN, -, AUTO, DEFAULT, CONSTANT, SIGNED, (, ~, VOLATILE, DEC_OP, IF, INT, GOTO, SIZEOF, CASE, UNION, VOID, CONTINUE, CHAR, STATIC, WHILE, FOR, }, ELSE, &, REGISTER, +, *, {, FLOAT, STRING_LITERAL, UNSIGNED, $end, IDENTIFIER, SWITCH]
 
 declaration_list FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, }, IF, CASE, BREAK, ;, RETURN, STRING_LITERAL, *, (, IDENTIFIER, FOR, -, WHILE, !, {, ~, CONTINUE, SWITCH, DO, DEC_OP]
+[;, SIZEOF, DO, INC_OP, CASE, CONTINUE, BREAK, !, -, RETURN, CONSTANT, DEFAULT, WHILE, FOR, }, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, IDENTIFIER, SWITCH]
 
 statement_list FOLLOW:
 [}]
 
 expression_statement FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, ), DEFAULT, IF, }, CASE, BREAK, ;, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[;, DO, SIZEOF, CASE, INC_OP, ), CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 selection_statement FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, IF, }, CASE, BREAK, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[DO, SIZEOF, CASE, INC_OP, CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 iteration_statement FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, IF, }, CASE, BREAK, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[DO, SIZEOF, CASE, INC_OP, CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 jump_statement FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, IF, }, CASE, BREAK, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[DO, SIZEOF, CASE, INC_OP, CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 translation_unit FOLLOW:
 [$end]
 
 external_declaration FOLLOW:
-[SHORT, STATIC, REGISTER, CHAR, UNION, TYPEDEF, ENUM, STRUCT, FLOAT, CONST, *, (, SIGNED, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, VOID, INT, $end, DOUBLE, VOLATILE, EXTERN, LONG]
+[ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, UNSIGNED, INT, $end, IDENTIFIER]
 
 function_definition FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 postfix_expression1 FOLLOW:
-[^, :, AND_ASSIGN, +, MOD_ASSIGN, &, OR_ASSIGN, LE_OP, ADD_ASSIGN, LEFT_ASSIGN, ), GE_OP, >, }, LEFT_OP, <, AND_OP, EQ_OP, NE_OP, SUB_ASSIGN, ;, *, XOR_ASSIGN, RIGHT_OP, /, OR_OP, -, |, ,, DIV_ASSIGN, =, RIGHT_ASSIGN, ], %, ?, MUL_ASSIGN]
+[LE_OP, ;, NE_OP, DIV_ASSIGN, %, AND_ASSIGN, :, ), RIGHT_OP, LEFT_ASSIGN, ], ^, XOR_ASSIGN, LEFT_OP, -, OR_ASSIGN, |, ?, /, AND_OP, }, EQ_OP, &, <, +, *, GE_OP, RIGHT_ASSIGN, ADD_ASSIGN, OR_OP, ,, >, SUB_ASSIGN, MUL_ASSIGN, MOD_ASSIGN, =]
 
 argument_expression_list1 FOLLOW:
 [)]
 
 multiplicative_expression1 FOLLOW:
-[NE_OP, ^, :, ;, +, &, LE_OP, RIGHT_OP, OR_OP, -, |, ), ,, GE_OP, >, }, ], ?, LEFT_OP, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, +, GE_OP, :, ), RIGHT_OP, ], ^, OR_OP, ,, >, LEFT_OP, -]
 
 additive_expression1 FOLLOW:
-[NE_OP, ^, :, ;, &, LE_OP, RIGHT_OP, OR_OP, |, ), ,, GE_OP, >, }, ], ?, LEFT_OP, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, GE_OP, :, ), RIGHT_OP, ], ^, OR_OP, ,, >, LEFT_OP]
 
 shift_expression1 FOLLOW:
-[NE_OP, ^, :, ;, &, LE_OP, OR_OP, |, ), ,, GE_OP, >, }, ], ?, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, GE_OP, :, ), ], ^, OR_OP, ,, >]
 
 relational_expression1 FOLLOW:
-[NE_OP, ^, :, ;, &, OR_OP, |, ), ,, }, ], ?, AND_OP, EQ_OP]
+[|, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, :, ), ], ^, OR_OP, ,]
 
 equality_expression1 FOLLOW:
-[^, :, ;, &, OR_OP, |, ), ,, }, ], ?, AND_OP]
+[|, ?, ;, AND_OP, }, &, :, ), ], ^, OR_OP, ,]
 
 and_expression1 FOLLOW:
-[), ^, :, ,, ;, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], ^, AND_OP, OR_OP, }, ,, :, )]
 
 exclusive_or_expression1 FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], AND_OP, OR_OP, }, ,, :, )]
 
 inclusive_or_expression1 FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?, AND_OP]
+[?, ;, ], AND_OP, OR_OP, }, ,, :, )]
 
 logical_and_expression1 FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?]
+[?, ;, ], OR_OP, }, ,, :, )]
 
 logical_or_expression1 FOLLOW:
-[), :, ,, ;, }, ], ?]
+[?, ;, ], }, ,, :, )]
 
 expression1 FOLLOW:
-[), :, ;, ]]
+[;, ], :, )]
 
 init_declarator_list1 FOLLOW:
 [;]
@@ -227,25 +227,25 @@ enumerator_list1 FOLLOW:
 [}]
 
 direct_declarator1 FOLLOW:
-[:, SHORT, STATIC, REGISTER, CHAR, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, SIGNED, TYPE_NAME, UNSIGNED, AUTO, {, ,, VOID, INT, =, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, :, CONST, DOUBLE, ), VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, STATIC, AUTO, SIGNED, REGISTER, {, FLOAT, VOLATILE, ,, =, UNSIGNED, INT]
 
 type_qualifier_list1 FOLLOW:
-[), ,, *, (, IDENTIFIER, []
+[,, [, *, IDENTIFIER, (, )]
 
 parameter_list1 FOLLOW:
-[), ,]
+[,, )]
 
 identifier_list1 FOLLOW:
 [)]
 
 direct_abstract_declarator1 FOLLOW:
-[), ,]
+[,, )]
 
 initializer_list1 FOLLOW:
-[,, }]
+[}, ,]
 
 declaration_list1 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, }, IF, CASE, BREAK, ;, RETURN, STRING_LITERAL, *, (, IDENTIFIER, FOR, -, WHILE, !, {, ~, CONTINUE, SWITCH, DO, DEC_OP]
+[;, SIZEOF, DO, INC_OP, CASE, CONTINUE, BREAK, !, -, RETURN, CONSTANT, DEFAULT, WHILE, FOR, }, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, IDENTIFIER, SWITCH]
 
 statement_list1 FOLLOW:
 [}]
@@ -254,154 +254,154 @@ translation_unit1 FOLLOW:
 [$end]
 
 unary_expression2 FOLLOW:
-[^, :, AND_ASSIGN, +, MOD_ASSIGN, &, OR_ASSIGN, LE_OP, ADD_ASSIGN, LEFT_ASSIGN, ), GE_OP, >, }, LEFT_OP, <, AND_OP, EQ_OP, NE_OP, SUB_ASSIGN, ;, *, XOR_ASSIGN, RIGHT_OP, /, OR_OP, -, |, ,, DIV_ASSIGN, =, RIGHT_ASSIGN, ], %, ?, MUL_ASSIGN]
+[LE_OP, ;, NE_OP, DIV_ASSIGN, %, AND_ASSIGN, :, ), RIGHT_OP, LEFT_ASSIGN, ], ^, XOR_ASSIGN, LEFT_OP, -, OR_ASSIGN, |, ?, /, AND_OP, }, EQ_OP, &, <, +, *, GE_OP, RIGHT_ASSIGN, ADD_ASSIGN, OR_OP, ,, >, SUB_ASSIGN, MUL_ASSIGN, MOD_ASSIGN, =]
 
 cast_expression2 FOLLOW:
-[^, :, AND_ASSIGN, +, MOD_ASSIGN, &, OR_ASSIGN, LE_OP, ADD_ASSIGN, LEFT_ASSIGN, ), GE_OP, >, }, LEFT_OP, <, AND_OP, EQ_OP, NE_OP, SUB_ASSIGN, ;, *, XOR_ASSIGN, RIGHT_OP, /, OR_OP, -, |, ,, DIV_ASSIGN, =, RIGHT_ASSIGN, ], %, ?, MUL_ASSIGN]
+[LE_OP, ;, NE_OP, DIV_ASSIGN, %, AND_ASSIGN, :, ), RIGHT_OP, LEFT_ASSIGN, ], ^, XOR_ASSIGN, LEFT_OP, -, OR_ASSIGN, |, ?, /, AND_OP, }, EQ_OP, &, <, +, *, GE_OP, RIGHT_ASSIGN, ADD_ASSIGN, OR_OP, ,, >, SUB_ASSIGN, MUL_ASSIGN, MOD_ASSIGN, =]
 
 multiplicative_expression2 FOLLOW:
-[NE_OP, ^, :, ;, +, &, LE_OP, RIGHT_OP, OR_OP, -, |, ), ,, GE_OP, >, }, ], ?, LEFT_OP, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, +, GE_OP, :, ), RIGHT_OP, ], ^, OR_OP, ,, >, LEFT_OP, -]
 
 multiplicative_expression22 FOLLOW:
-[NE_OP, ^, :, ;, +, &, LE_OP, RIGHT_OP, OR_OP, -, |, ), ,, GE_OP, >, }, ], ?, LEFT_OP, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, +, GE_OP, :, ), RIGHT_OP, ], ^, OR_OP, ,, >, LEFT_OP, -]
 
 additive_expression2 FOLLOW:
-[NE_OP, ^, :, ;, &, LE_OP, RIGHT_OP, OR_OP, |, ), ,, GE_OP, >, }, ], ?, LEFT_OP, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, GE_OP, :, ), RIGHT_OP, ], ^, OR_OP, ,, >, LEFT_OP]
 
 additive_expression22 FOLLOW:
-[NE_OP, ^, :, ;, &, LE_OP, RIGHT_OP, OR_OP, |, ), ,, GE_OP, >, }, ], ?, LEFT_OP, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, GE_OP, :, ), RIGHT_OP, ], ^, OR_OP, ,, >, LEFT_OP]
 
 shift_expression2 FOLLOW:
-[NE_OP, ^, :, ;, &, LE_OP, OR_OP, |, ), ,, GE_OP, >, }, ], ?, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, GE_OP, :, ), ], ^, OR_OP, ,, >]
 
 shift_expression22 FOLLOW:
-[NE_OP, ^, :, ;, &, LE_OP, OR_OP, |, ), ,, GE_OP, >, }, ], ?, <, AND_OP, EQ_OP]
+[LE_OP, |, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, <, GE_OP, :, ), ], ^, OR_OP, ,, >]
 
 relational_expression2 FOLLOW:
-[NE_OP, ^, :, ;, &, OR_OP, |, ), ,, }, ], ?, AND_OP, EQ_OP]
+[|, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, :, ), ], ^, OR_OP, ,]
 
 relational_expression22 FOLLOW:
-[NE_OP, ^, :, ;, &, OR_OP, |, ), ,, }, ], ?, AND_OP, EQ_OP]
+[|, ?, ;, NE_OP, AND_OP, }, EQ_OP, &, :, ), ], ^, OR_OP, ,]
 
 equality_expression2 FOLLOW:
-[), ^, :, ,, ;, &, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], ^, AND_OP, OR_OP, }, ,, &, :, )]
 
 equality_expression22 FOLLOW:
-[), ^, :, ,, ;, &, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], ^, AND_OP, OR_OP, }, ,, &, :, )]
 
 and_expression2 FOLLOW:
-[), ^, :, ,, ;, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], ^, AND_OP, OR_OP, }, ,, :, )]
 
 and_expression22 FOLLOW:
-[), ^, :, ,, ;, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], ^, AND_OP, OR_OP, }, ,, :, )]
 
 exclusive_or_expression2 FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], AND_OP, OR_OP, }, ,, :, )]
 
 exclusive_or_expression22 FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?, AND_OP, |]
+[|, ?, ;, ], AND_OP, OR_OP, }, ,, :, )]
 
 inclusive_or_expression2 FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?, AND_OP]
+[?, ;, ], AND_OP, OR_OP, }, ,, :, )]
 
 inclusive_or_expression22 FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?, AND_OP]
+[?, ;, ], AND_OP, OR_OP, }, ,, :, )]
 
 logical_and_expression2 FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?]
+[?, ;, ], OR_OP, }, ,, :, )]
 
 logical_and_expression22 FOLLOW:
-[), :, ,, ;, OR_OP, }, ], ?]
+[?, ;, ], OR_OP, }, ,, :, )]
 
 conditional_expression2 FOLLOW:
-[), :, ,, ;, ], }]
+[;, ], }, ,, :, )]
 
 conditional_expression22 FOLLOW:
-[), :, ,, ;, ], }]
+[;, ], }, ,, :, )]
 
 conditional_expression222 FOLLOW:
-[), :, ,, ;, ], }]
+[;, ], }, ,, :, )]
 
 assignment_expression2 FOLLOW:
-[), :, ,, ;, }, ]]
+[;, ], }, ,, :, )]
 
 assignment_expression22 FOLLOW:
-[), :, ,, ;, }, ]]
+[;, ], }, ,, :, )]
 
 assignment_expression222 FOLLOW:
-[), :, ,, ;, }, ]]
+[;, ], }, ,, :, )]
 
 expression2 FOLLOW:
-[), :, ;, ]]
+[], ;, :, )]
 
 expression22 FOLLOW:
-[), :, ;, ]]
+[], ;, :, )]
 
 expression222 FOLLOW:
-[), :, ;, ]]
+[], ;, :, )]
 
 expression2222 FOLLOW:
-[), :, ;, ]]
+[], ;, :, )]
 
 declaration_specifiers2 FOLLOW:
-[), ,, ;, *, (, IDENTIFIER]
+[;, ,, *, IDENTIFIER, (, )]
 
 init_declarator2 FOLLOW:
-[,, ;]
+[;, ,]
 
 struct_or_union_specifier2 FOLLOW:
-[SHORT, STATIC, CHAR, REGISTER, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, *, SIGNED, (, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, ,, VOID, INT, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, ), VOID, SHORT, CHAR, STRUCT, TYPEDEF, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, ,, UNSIGNED, INT, IDENTIFIER]
 
 struct_or_union_specifier22 FOLLOW:
-[SHORT, STATIC, CHAR, REGISTER, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, *, SIGNED, (, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, ,, VOID, INT, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, ), VOID, SHORT, CHAR, STRUCT, TYPEDEF, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, ,, UNSIGNED, INT, IDENTIFIER]
 
 specifier_qualifier_list2 FOLLOW:
-[), *, (, IDENTIFIER]
+[*, IDENTIFIER, (, )]
 
 specifier_qualifier_list22 FOLLOW:
-[), *, (, IDENTIFIER]
+[*, IDENTIFIER, (, )]
 
 specifier_qualifier_list222 FOLLOW:
-[), *, (, IDENTIFIER]
+[*, IDENTIFIER, (, )]
 
 struct_declarator2 FOLLOW:
-[,, ;]
+[;, ,]
 
 enum_specifier2 FOLLOW:
-[SHORT, STATIC, CHAR, REGISTER, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, *, SIGNED, (, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, ,, VOID, INT, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, ), VOID, SHORT, CHAR, STRUCT, TYPEDEF, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, ,, UNSIGNED, INT, IDENTIFIER]
 
 enum_specifier22 FOLLOW:
-[SHORT, STATIC, CHAR, REGISTER, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, *, SIGNED, (, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, ,, VOID, INT, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, CONST, DOUBLE, ), VOID, SHORT, CHAR, STRUCT, TYPEDEF, EXTERN, STATIC, AUTO, SIGNED, REGISTER, *, FLOAT, (, VOLATILE, ,, UNSIGNED, INT, IDENTIFIER]
 
 enumerator2 FOLLOW:
-[,, }]
+[}, ,]
 
 pointer2 FOLLOW:
-[), ,, (, IDENTIFIER, []
+[,, [, IDENTIFIER, (, )]
 
 pointer22 FOLLOW:
-[), ,, (, IDENTIFIER, []
+[,, [, IDENTIFIER, (, )]
 
 parameter_type_list2 FOLLOW:
 [)]
 
 parameter_declaration2 FOLLOW:
-[), ,]
+[,, )]
 
 parameter_declaration22 FOLLOW:
-[), ,]
+[,, )]
 
 parameter_declaration222 FOLLOW:
-[), ,]
+[,, )]
 
 parameter_declaration2222 FOLLOW:
-[), ,]
+[,, )]
 
 parameter_declaration22222 FOLLOW:
-[), ,]
+[,, )]
 
 parameter_declaration222222 FOLLOW:
-[), ,]
+[,, )]
 
 type_name2 FOLLOW:
 [)]
@@ -422,61 +422,61 @@ type_name222222 FOLLOW:
 [)]
 
 abstract_declarator2 FOLLOW:
-[), ,]
+[,, )]
 
 abstract_declarator22 FOLLOW:
-[), ,]
+[,, )]
 
 abstract_declarator222 FOLLOW:
-[), ,]
+[,, )]
 
 direct_abstract_declarator2 FOLLOW:
-[), ,]
+[,, )]
 
 direct_abstract_declarator22 FOLLOW:
-[), ,]
+[,, )]
 
 initializer2 FOLLOW:
-[,, ;, }]
+[;, }, ,]
 
 initializer_list2 FOLLOW:
-[,, }]
+[}, ,]
 
 initializer_list22 FOLLOW:
-[,, }]
+[}, ,]
 
 initializer_list222 FOLLOW:
-[,, }]
+[}, ,]
 
 initializer_list2222 FOLLOW:
-[,, }]
+[}, ,]
 
 initializer_list22222 FOLLOW:
-[,, }]
+[}, ,]
 
 compound_statement2 FOLLOW:
-[INC_OP, +, &, SHORT, STATIC, SIZEOF, GOTO, CONSTANT, REGISTER, CHAR, DEFAULT, UNION, TYPEDEF, ENUM, IF, }, STRUCT, FLOAT, CASE, BREAK, RETURN, ELSE, CONST, STRING_LITERAL, *, (, SIGNED, IDENTIFIER, TYPE_NAME, UNSIGNED, FOR, AUTO, WHILE, -, !, {, VOID, CONTINUE, ~, INT, $end, DOUBLE, SWITCH, VOLATILE, EXTERN, DO, LONG, DEC_OP]
+[DO, SIZEOF, ENUM, CASE, INC_OP, LONG, TYPE_NAME, UNION, CONST, DOUBLE, VOID, CONTINUE, SHORT, BREAK, CHAR, TYPEDEF, STRUCT, !, EXTERN, STATIC, RETURN, -, AUTO, DEFAULT, CONSTANT, WHILE, FOR, }, SIGNED, ELSE, &, REGISTER, +, *, {, FLOAT, (, ~, VOLATILE, DEC_OP, STRING_LITERAL, IF, UNSIGNED, INT, $end, GOTO, IDENTIFIER, SWITCH]
 
 compound_statement22 FOLLOW:
-[INC_OP, +, &, SHORT, STATIC, SIZEOF, GOTO, CONSTANT, REGISTER, CHAR, DEFAULT, UNION, TYPEDEF, ENUM, IF, }, STRUCT, FLOAT, CASE, BREAK, RETURN, ELSE, CONST, STRING_LITERAL, *, (, SIGNED, IDENTIFIER, TYPE_NAME, UNSIGNED, FOR, AUTO, WHILE, -, !, {, VOID, CONTINUE, ~, INT, $end, DOUBLE, SWITCH, VOLATILE, EXTERN, DO, LONG, DEC_OP]
+[DO, SIZEOF, ENUM, CASE, INC_OP, LONG, TYPE_NAME, UNION, CONST, DOUBLE, VOID, CONTINUE, SHORT, BREAK, CHAR, TYPEDEF, STRUCT, !, EXTERN, STATIC, RETURN, -, AUTO, DEFAULT, CONSTANT, WHILE, FOR, }, SIGNED, ELSE, &, REGISTER, +, *, {, FLOAT, (, ~, VOLATILE, DEC_OP, STRING_LITERAL, IF, UNSIGNED, INT, $end, GOTO, IDENTIFIER, SWITCH]
 
 declaration_list2 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, }, IF, CASE, BREAK, ;, RETURN, STRING_LITERAL, *, (, IDENTIFIER, FOR, -, WHILE, !, {, ~, CONTINUE, SWITCH, DO, DEC_OP]
+[;, SIZEOF, DO, INC_OP, CASE, CONTINUE, BREAK, !, -, RETURN, CONSTANT, DEFAULT, WHILE, FOR, }, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, IDENTIFIER, SWITCH]
 
 declaration_list22 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, }, IF, CASE, BREAK, ;, RETURN, STRING_LITERAL, *, (, IDENTIFIER, FOR, -, WHILE, !, {, ~, CONTINUE, SWITCH, DO, DEC_OP]
+[;, SIZEOF, DO, INC_OP, CASE, CONTINUE, BREAK, !, -, RETURN, CONSTANT, DEFAULT, WHILE, FOR, }, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, IDENTIFIER, SWITCH]
 
 declaration_list222 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, }, IF, CASE, BREAK, ;, RETURN, STRING_LITERAL, *, (, IDENTIFIER, FOR, -, WHILE, !, {, ~, CONTINUE, SWITCH, DO, DEC_OP]
+[;, SIZEOF, DO, INC_OP, CASE, CONTINUE, BREAK, !, -, RETURN, CONSTANT, DEFAULT, WHILE, FOR, }, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, IDENTIFIER, SWITCH]
 
 declaration_list2222 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, }, IF, CASE, BREAK, ;, RETURN, STRING_LITERAL, *, (, IDENTIFIER, FOR, -, WHILE, !, {, ~, CONTINUE, SWITCH, DO, DEC_OP]
+[;, SIZEOF, DO, INC_OP, CASE, CONTINUE, BREAK, !, -, RETURN, CONSTANT, DEFAULT, WHILE, FOR, }, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, IDENTIFIER, SWITCH]
 
 declaration_list22222 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, }, IF, CASE, BREAK, ;, RETURN, STRING_LITERAL, *, (, IDENTIFIER, FOR, -, WHILE, !, {, ~, CONTINUE, SWITCH, DO, DEC_OP]
+[;, SIZEOF, DO, INC_OP, CASE, CONTINUE, BREAK, !, -, RETURN, CONSTANT, DEFAULT, WHILE, FOR, }, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, IDENTIFIER, SWITCH]
 
 declaration_list222222 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, }, IF, CASE, BREAK, ;, RETURN, STRING_LITERAL, *, (, IDENTIFIER, FOR, -, WHILE, !, {, ~, CONTINUE, SWITCH, DO, DEC_OP]
+[;, SIZEOF, DO, INC_OP, CASE, CONTINUE, BREAK, !, -, RETURN, CONSTANT, DEFAULT, WHILE, FOR, }, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, IDENTIFIER, SWITCH]
 
 statement_list2 FOLLOW:
 [}]
@@ -485,70 +485,70 @@ statement_list22 FOLLOW:
 [}]
 
 expression_statement2 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, ), DEFAULT, IF, }, CASE, BREAK, ;, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[;, DO, SIZEOF, CASE, INC_OP, ), CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 expression_statement22 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, ), DEFAULT, IF, }, CASE, BREAK, ;, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[;, DO, SIZEOF, CASE, INC_OP, ), CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 expression_statement222 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, ), DEFAULT, IF, }, CASE, BREAK, ;, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[;, DO, SIZEOF, CASE, INC_OP, ), CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 expression_statement2222 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, ), DEFAULT, IF, }, CASE, BREAK, ;, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[;, DO, SIZEOF, CASE, INC_OP, ), CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 selection_statement2 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, IF, }, CASE, BREAK, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[DO, SIZEOF, CASE, INC_OP, CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 iteration_statement2 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, IF, }, CASE, BREAK, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[DO, SIZEOF, CASE, INC_OP, CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 jump_statement2 FOLLOW:
-[INC_OP, +, &, SIZEOF, GOTO, CONSTANT, DEFAULT, IF, }, CASE, BREAK, RETURN, ELSE, STRING_LITERAL, *, (, IDENTIFIER, FOR, WHILE, -, !, {, CONTINUE, ~, SWITCH, DO, DEC_OP]
+[DO, SIZEOF, CASE, INC_OP, CONTINUE, BREAK, !, RETURN, -, DEFAULT, CONSTANT, WHILE, FOR, }, ELSE, &, +, *, {, (, ~, DEC_OP, STRING_LITERAL, IF, GOTO, SWITCH, IDENTIFIER]
 
 external_declaration2 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 external_declaration22 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 external_declaration222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 external_declaration2222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 external_declaration22222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 external_declaration222222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 function_definition2 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 function_definition22 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 function_definition222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 function_definition2222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 function_definition22222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 function_definition222222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 function_definition2222222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 function_definition22222222 FOLLOW:
-[CONST, *, SHORT, (, SIGNED, STATIC, IDENTIFIER, TYPE_NAME, UNSIGNED, AUTO, REGISTER, CHAR, VOID, UNION, TYPEDEF, INT, $end, DOUBLE, ENUM, VOLATILE, EXTERN, STRUCT, LONG, FLOAT]
+[SIGNED, ENUM, LONG, TYPE_NAME, REGISTER, UNION, *, CONST, FLOAT, (, DOUBLE, VOLATILE, VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, UNSIGNED, INT, STATIC, $end, IDENTIFIER, AUTO]
 
 postfix_expression12 FOLLOW:
-[^, :, AND_ASSIGN, +, MOD_ASSIGN, &, OR_ASSIGN, LE_OP, ADD_ASSIGN, LEFT_ASSIGN, ), GE_OP, >, }, LEFT_OP, <, AND_OP, EQ_OP, NE_OP, SUB_ASSIGN, ;, *, XOR_ASSIGN, RIGHT_OP, /, OR_OP, -, |, ,, DIV_ASSIGN, =, RIGHT_ASSIGN, ], %, ?, MUL_ASSIGN]
+[LE_OP, ;, NE_OP, DIV_ASSIGN, %, AND_ASSIGN, :, ), RIGHT_OP, LEFT_ASSIGN, ], ^, XOR_ASSIGN, LEFT_OP, -, OR_ASSIGN, |, ?, /, AND_OP, }, EQ_OP, &, <, +, *, GE_OP, RIGHT_ASSIGN, ADD_ASSIGN, OR_OP, ,, >, SUB_ASSIGN, MUL_ASSIGN, MOD_ASSIGN, =]
 
 struct_declaration_list12 FOLLOW:
 [}]
@@ -566,10 +566,10 @@ struct_declaration_list122222 FOLLOW:
 [}]
 
 direct_declarator12 FOLLOW:
-[:, SHORT, STATIC, REGISTER, CHAR, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, SIGNED, TYPE_NAME, UNSIGNED, AUTO, {, ,, VOID, INT, =, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, :, CONST, DOUBLE, ), VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, STATIC, AUTO, SIGNED, REGISTER, {, FLOAT, VOLATILE, ,, =, UNSIGNED, INT]
 
 direct_declarator122 FOLLOW:
-[:, SHORT, STATIC, REGISTER, CHAR, ), UNION, TYPEDEF, ENUM, STRUCT, FLOAT, ;, CONST, SIGNED, TYPE_NAME, UNSIGNED, AUTO, {, ,, VOID, INT, =, DOUBLE, VOLATILE, EXTERN, LONG]
+[;, ENUM, LONG, TYPE_NAME, UNION, :, CONST, DOUBLE, ), VOID, SHORT, CHAR, TYPEDEF, STRUCT, EXTERN, STATIC, AUTO, SIGNED, REGISTER, {, FLOAT, VOLATILE, ,, =, UNSIGNED, INT]
 
 statement_list12 FOLLOW:
 [}]

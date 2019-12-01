@@ -1,0 +1,171 @@
+chunk FOLLOW:
+[$end]
+
+block FOLLOW:
+[until, $end, end, else]
+
+stat FOLLOW:
+[(, function, until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+retstat FOLLOW:
+[until, $end, end, else]
+
+varlist FOLLOW:
+[=]
+
+explist FOLLOW:
+[(, function, do, ), until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+functioncall FOLLOW:
+[(, function, until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+label FOLLOW:
+[(, function, until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+exp FOLLOW:
+[function, or, ), until, >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, then, //, >=, ,, repeat, (, ~=, do, <, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+elseifstat FOLLOW:
+[end, else]
+
+namelist FOLLOW:
+[(, function, until, ;, while, $end, =, if, end, in, else, for, return, ::, Name, break, local, repeat, goto]
+
+funcname FOLLOW:
+[function, (, ;, while, if, for, return, break, Name, ::, local, repeat, goto]
+
+funcbody FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+dotname FOLLOW:
+[function, (, :, ;, while, if, for, return, break, Name, ::, local, repeat, goto]
+
+var FOLLOW:
+[,, =]
+
+commavar FOLLOW:
+[=]
+
+prefixexp FOLLOW:
+[or, :, >>, ], >, end, .., &, local, //, >=, ,, repeat, (, <, do, $end, [, if, {, else, /, |, function, LiteralString, ), until, and, +, -, for, ^, return, %, then, ~=, }, ;, while, *, ~, ==, <<, ., ::, Name, break, <=, goto]
+
+commaname FOLLOW:
+[(, function, ), until, ;, while, $end, =, if, end, in, else, for, return, ::, Name, break, local, ,, repeat, goto]
+
+commaexp FOLLOW:
+[(, function, do, ), until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+functiondef FOLLOW:
+[function, or, ), until, >>, ], >, and, end, +, .., -, for, ^, &, return, %, local, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, *, if, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+tableconstructor FOLLOW:
+[function, or, ), until, >>, ], >, and, end, +, .., -, for, ^, &, return, %, local, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, *, if, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+unop FOLLOW:
+[function, (, LiteralString, nil, false, ~, {, -, not, Name, true, Numeral, ..., #]
+
+args FOLLOW:
+[or, :, >>, ], >, end, .., &, local, //, >=, ,, repeat, (, <, do, $end, [, if, {, else, /, |, function, LiteralString, ), until, and, +, -, for, ^, return, %, then, ~=, }, ;, while, *, ~, ==, <<, ., ::, Name, break, <=, goto]
+
+parlist FOLLOW:
+[)]
+
+fieldlist FOLLOW:
+[}]
+
+field FOLLOW:
+[}, ;, ,]
+
+fieldsepfield FOLLOW:
+[}, ;, ,]
+
+fieldsep FOLLOW:
+[function, (, LiteralString, nil, false, }, [, ~, {, -, not, Name, true, Numeral, ..., #]
+
+exp1 FOLLOW:
+[function, or, ), until, >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, then, //, >=, ,, repeat, (, ~=, do, <, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+prefixexp1 FOLLOW:
+[or, :, >>, ], >, end, .., &, local, //, >=, ,, repeat, (, <, do, $end, [, if, {, else, /, |, function, LiteralString, ), until, and, +, -, for, ^, return, %, then, ~=, }, ;, while, *, ~, ==, <<, ., ::, Name, break, <=, goto]
+
+stat2 FOLLOW:
+[(, function, until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+stat22 FOLLOW:
+[(, function, until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+stat222 FOLLOW:
+[(, function, until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+stat2222 FOLLOW:
+[(, function, until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+stat22222 FOLLOW:
+[(, function, until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+retstat2 FOLLOW:
+[until, $end, end, else]
+
+retstat22 FOLLOW:
+[until, $end, end, else]
+
+functioncall2 FOLLOW:
+[(, function, until, ;, while, $end, if, end, else, for, return, ::, Name, break, local, repeat, goto]
+
+funcname2 FOLLOW:
+[function, (, ;, while, if, for, return, break, Name, ::, local, repeat, goto]
+
+funcbody2 FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+funcbody22 FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+funcbody222 FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+funcbody2222 FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+funcbody22222 FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+funcbody222222 FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+funcbody2222222 FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+funcbody22222222 FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+funcbody222222222 FOLLOW:
+[function, or, until, ), >>, ], >, and, end, +, .., -, for, ^, return, &, local, %, //, >=, then, ,, repeat, (, ~=, <, do, }, ;, while, $end, if, *, ~, ==, <<, else, /, ::, Name, break, <=, |, goto]
+
+var2 FOLLOW:
+[,, =]
+
+tableconstructor2 FOLLOW:
+[or, :, >>, ], >, end, .., &, local, //, >=, ,, repeat, (, <, do, $end, [, if, {, else, /, |, function, LiteralString, ), until, and, +, -, for, ^, return, %, then, ~=, }, ;, while, *, ~, ==, <<, ., ::, Name, break, <=, goto]
+
+args2 FOLLOW:
+[or, :, >>, ], >, end, .., &, local, //, >=, ,, repeat, (, <, do, $end, [, if, {, else, /, |, function, LiteralString, ), until, and, +, -, for, ^, return, %, then, ~=, }, ;, while, *, ~, ==, <<, ., ::, Name, break, <=, goto]
+
+parlist2 FOLLOW:
+[)]
+
+fieldlist2 FOLLOW:
+[}]
+
+field2 FOLLOW:
+[}, ;, ,]
+
+field22 FOLLOW:
+[}, ;, ,]
+
+prefixexp12 FOLLOW:
+[or, :, >>, ], >, end, .., &, local, //, >=, ,, repeat, (, <, do, $end, [, if, {, else, /, |, function, LiteralString, ), until, and, +, -, for, ^, return, %, then, ~=, }, ;, while, *, ~, ==, <<, ., ::, Name, break, <=, goto]
+
+prefixexp122 FOLLOW:
+[or, :, >>, ], >, end, .., &, local, //, >=, ,, repeat, (, <, do, $end, [, if, {, else, /, |, function, LiteralString, ), until, and, +, -, for, ^, return, %, then, ~=, }, ;, while, *, ~, ==, <<, ., ::, Name, break, <=, goto]
+

@@ -17,7 +17,10 @@ public class FakeYACC {
     //ε and # will treat as Terminal
 
 
-    private static final String directory = "src/FakeYacc/ANSIC";//src/FakeYacc/ANSIC
+    private static String directory = "src/FakeYacc/ANSIC";//src/FakeYacc/ANSIC
+    private static NonTerminal startNonTerminal;
+
+    private static boolean needAdjust;//initial grammar include ε production
 
 //    int order = 1;//the name of the left-part in the newly created production
 
@@ -66,6 +69,78 @@ public class FakeYACC {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void readBisonBNF(){
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(directory +"/grammar"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(reader == null){
+            System.out.println("grammar reader is null");return;
+        }
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                if(line.equals(""))continue;
+                if(line.charAt(0)!=' ')sb.append(' ');
+                sb.append(
+                        line.replaceAll(" +", " ")
+                                .replaceAll("\t+", " "));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sb.delete(0,1);
+        String[] strings = sb.toString().split(" ");
+        System.out.println(Arrays.toString(strings));
+        int i =0;
+        Symbol symbol = null;
+        NonTerminal nt = null;
+        Candidate candidate = null;
+        List<Symbol> symbols = null;
+        while (i<strings.length){
+            if(strings[i].equals(":")){
+                i++;
+                symbols = new LinkedList<>();
+                while (!strings[i].equals(";")){
+                    if(strings[i].equals("|")){
+                        candidate = new Candidate(symbols);
+                        nt.addCandidate(candidate);
+                        symbols = new LinkedList<>();
+                    }
+                    else if(strings[i].charAt(0)=='\''){
+                        symbols.add(TerminalMap.get(strings[i].substring(1,strings[i].length()-1)));
+                    }
+                    else if((symbol = TerminalMap.get(strings[i]))!=null){
+                        symbols.add(symbol);
+                        if(symbol == Terminal.nul) needAdjust = true;
+                    }
+                    else if(strings[i].equals("ε")) symbols.add(Terminal.nul);
+                    else {
+                        if((symbol = NonTerminalMap.get(strings[i]))==null){
+                            symbol = new NonTerminal(strings[i]);
+                            NonTerminalMap.put(strings[i], (NonTerminal) symbol);
+                            NonTerminals.add((NonTerminal) symbol);
+                        }
+                        symbols.add(symbol);
+                    }
+                    i++;
+                }
+                candidate = new Candidate(symbols);
+                nt.addCandidate(candidate);
+            }else{
+                if((nt = NonTerminalMap.get(strings[i]))==null){
+                    nt = new NonTerminal(strings[i]);
+                    NonTerminalMap.put(strings[i], nt);
+                    NonTerminals.add(nt);
+                }
+            }
+            i++;
         }
     }
 
@@ -173,10 +248,7 @@ public class FakeYACC {
                 Set<Terminal> first = mapFIRST.get(nt.name);
                 if(first==null){
                     System.out.println(nt+"first null"); continue;}
-                Set<Terminal> FIRST = new HashSet<Terminal>();
-                for(Candidate candidate : nt.candidateList()){
-                    FIRST.addAll(candidate.getFIRST());
-                }
+                Set<Terminal> FIRST = nt.getFIRST();
                 if(FIRST.size()!=first.size()){
                     printfDiff(nt, FIRST, first);
                     diff++;
@@ -291,9 +363,9 @@ public class FakeYACC {
                         sb.append(symbol.name);
                     }else {
                         sb.append(" ");
-                        if(symbol.name.length()==1 && !symbol.equals(Terminal.nul))sb.append("'");
+                        if(!Character.isLetter(symbol.name.charAt(0)) && !symbol.equals(Terminal.nul))sb.append("'");
                         sb.append(symbol.name);
-                        if(symbol.name.length()==1 && !symbol.equals(Terminal.nul))sb.append("'");
+                        if(!Character.isLetter(symbol.name.charAt(0)) && !symbol.equals(Terminal.nul))sb.append("'");
                     }
                 }
                 sb.append("\n");
@@ -335,10 +407,12 @@ public class FakeYACC {
 
             NonTerminal nonTerminal = NonTerminals.get(i);
             List<Candidate> candidates = nonTerminal.candidateList();
-
             //replace all candidate start with NonTerminal exists in Candidate before current NonTerminal
             for(int j = 0;j<candidates.size();j++){//for every candidate
                 Symbol firstSymbol = candidates.get(j).firstSymbol();
+                if(firstSymbol==null){
+                    System.out.println(nonTerminal.name+"  "+firstSymbol);return;
+                }
                 if(firstSymbol.isNonTerminal()){//if starts with NonTerminal
                     for(int k = 0;k<i;k++){
                         if(firstSymbol  == NonTerminals.get(k)){//start with NonTerminal that before current one
@@ -383,6 +457,7 @@ public class FakeYACC {
                 NonTerminalMap.putIfAbsent(newNonTerminal.name, newNonTerminal);
                 NonTerminals.add(newNonTerminal);
             }
+            if(needAdjust) adjustGrammar();
         }
         if(re)eliminateLeftRecursion();
     }
@@ -391,7 +466,7 @@ public class FakeYACC {
     private void removeUnreachableNonTerminals() {
         Set<NonTerminal> abandonSet = new HashSet<>(NonTerminalMap.values());//grantee no repetition
         Queue<NonTerminal> queue = new ArrayDeque<NonTerminal>();//NonTerminals links with start
-        NonTerminal nt = NonTerminalMap.get("translation_unit");//start unit
+        NonTerminal nt = startNonTerminal;//start unit
         queue.add(nt);
         if(!abandonSet.remove(nt)){ System.out.println("start NonTerminal is incorrect"); }
         while (queue.size()!=0){
@@ -399,9 +474,6 @@ public class FakeYACC {
             for(Candidate candidate : nt.candidateList()){
                 for(Symbol symbol : candidate.symbols){
                     if(symbol.isNonTerminal()){
-//                        if(nt.name.equals("type_specifier")){//struct_or_union_specifier
-//                            System.out.println("debug");
-//                        }
                         if(abandonSet.remove((NonTerminal) symbol)){
                             queue.offer((NonTerminal) symbol);
                         }
@@ -503,7 +575,7 @@ public class FakeYACC {
     //build FOLLOW collection
     private void buildCollectionFOLLOW(){
         boolean changed = true;
-        NonTerminal startNonTerminal = NonTerminalMap.get("translation_unit");
+        NonTerminal startNonTerminal = FakeYACC.startNonTerminal;
         startNonTerminal.FOLLOW.add(Terminal.sharp);
         int []sizes = new int[NonTerminals.size()];
 //        for (int i = 0;i<sizes.length;i++){
@@ -553,6 +625,7 @@ public class FakeYACC {
         index = 1;
         try {
             for(Terminal t : TerminalMap.values()){
+                if(t==Terminal.nul)continue;
                 terminal.put(t,index);
                 writer.write("@"+index+"\t\t"+t.name+"\n");
                 writer.flush();
@@ -588,6 +661,7 @@ public class FakeYACC {
             for(Candidate candidate : nt.candidateList()){
                 prodIndex = production.get(nt.name+"->"+candidate.toString());//map
                 for(Terminal t : candidate.getFIRST()){
+                    if(t==Terminal.nul)continue;
                     tIndex = terminal.get(t);
                     if(parseTable[ntIndex][tIndex]==null)
                         parseTable[ntIndex][tIndex] = String.format("%4d",prodIndex);
@@ -630,12 +704,28 @@ public class FakeYACC {
         }
     }
 
+    //adjust candidate like P -> ε P1 P2,
+    // it generates because the initial grammar include ε production
+    private void adjustGrammar(){
+        for(NonTerminal nt : NonTerminals){
+            for(Candidate candidate : nt.candidateList()){
+                List<Symbol> symbols = candidate.symbols;
+                if(symbols.size()>1) symbols.removeIf((o)-> o==Terminal.nul && symbols.size()>1);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         FakeYACC driver = new FakeYACC();
+//        directory = "Lua/5.3";
         driver.readTerminalSet();
         driver.readGrammar();
-        System.out.println(TerminalMap);
-        System.out.println("是否对语法进行处理?(true/false)");
+//        driver.readBisonBNF();
+        startNonTerminal = NonTerminalMap.get("translation_unit");//translation_unit
+//        startNonTerminal = NonTerminalMap.get("chunk");//translation_unit
+
+//        System.out.println(TerminalMap);
+        System.out.println("process?(true/false)");
         boolean cl = new Scanner(System.in).nextBoolean();
 //        System.out.println(printNonTerminals());
         System.out.println("before eliminateLeftRecursion: number of NonTerminals:"+NonTerminals.size());
